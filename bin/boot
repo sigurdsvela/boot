@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+args = ARGV.join(" ");
+
+#Run the main boot file with desired include path
+exec("ruby -I#{File.dirname(File.dirname(__FILE__))}/lib/ #{File.dirname(__FILE__)}/boot.rb #{args}");

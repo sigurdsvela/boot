@@ -1,0 +1,4 @@
+{
+	"templates-dir" : ["~/boot/templates"],
+	"options" : "~/boot/options.json"
+}
