@@ -2,8 +2,11 @@ require 'JSON';
 require 'Boot/Lib/Core/InvalidConfigException.rb'
 
 module Boot::Lib::Core
+	# The include paths
+	attr_reader :template_include_paths;
+
 	class Config
-		#Initilize with path to config file
+		# Initilize with path to config file
 		def initialize(path)
 			@filePath = path;
 			@file = File.open(path, "rb");
@@ -33,14 +36,14 @@ module Boot::Lib::Core
 			if (@templatesDir.is_a?(Array))
 				notDirs = [];
 				
-				#Add each path that is invalid to notDirs
+				# Add each path that is invalid to notDirs
 				@templatesDir.each do |path|
 					if (!File.directory? path)
 						notDirs.push(path);
 					end
 				end
 
-				#If any element in notDirs, invalid config
+				# If any element in notDirs, invalid config
 				if (notDirs.length > 0)
 					msg = "";
 					msg << "Invalid config file:\n";
@@ -50,9 +53,6 @@ module Boot::Lib::Core
 				end
 			end
 
-		end
-
-		def getTemplateIncludePaths()
 		end
 	end
 end
