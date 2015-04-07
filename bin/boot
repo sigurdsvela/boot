@@ -2,5 +2,8 @@
 
 args = ARGV.join(" ");
 
+libDir = File.dirname(File.dirname(__FILE__)) + "/lib";
+currentDir = File.dirname(__FILE__);
+
 #Run the main boot file with desired include path
-exec("ruby -I#{File.dirname(File.dirname(__FILE__))}/lib/ #{File.dirname(__FILE__)}/boot.rb #{args}");
+exec("ruby -I#{libDir} #{currentDir}/boot.rb #{args}");
