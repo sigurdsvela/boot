@@ -1,5 +1,8 @@
 module Boot::Lib::Core
 	class SubCommand
+		attr_reader :name;
+		attr_reader :description;
+		attr_reader :options;
 
 		def initialize(name, description, options, &block)
 			@name        = name;
@@ -16,14 +19,14 @@ module Boot::Lib::Core
 				#Hack to get around the lack of e.getUnknownOption()
 				#TODO Fix once avaiable
 				if (e.message[-7..-2] == "--help")
-					helpMessage();
+					printHelpMessage();
 				else
 					puts "#{e.message}. Try boot #{@name} --help";
 				end
-			end;
+			end
 		end
 
-		def helpMessage()
+		def printHelpMessage()
 			puts "boot " + @name;
 			if (@description != "")
 				puts "\tDescription:";
@@ -40,9 +43,5 @@ module Boot::Lib::Core
 			end
 			puts
 		end
-
-		def getName()		 return @name; end
-		def getDescription() return @description; end
-		def getOptions() 	 return @options; end
 	end
 end

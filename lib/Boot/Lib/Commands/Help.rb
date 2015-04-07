@@ -9,7 +9,7 @@ module Boot::Lib::Commands
 		optionsObj, #Has no options
 	) { |options, args|
 		Boot::Main.getSubCommands().each do |key, cmd|
-			cmd.helpMessage();
+			cmd.printHelpMessage();
 		end
 	};
 	@Help;
