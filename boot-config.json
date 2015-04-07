@@ -1,4 +1,3 @@
 {
-	"templates-dir" : ["~/boot/templates"],
-	"options" : "~/boot/options.json"
+	"templates-dir" : ["path/to/templates/dir"],
 }
