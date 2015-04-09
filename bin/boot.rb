@@ -36,6 +36,10 @@ module Boot
       end
     end
 
+    def self.config
+      return @config
+    end
+
     def self.getSubCommands
       @subCommands
     end
