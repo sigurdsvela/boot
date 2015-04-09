@@ -1,4 +1,4 @@
-require 'slop';
+require 'slop'
 
 module Boot
 end

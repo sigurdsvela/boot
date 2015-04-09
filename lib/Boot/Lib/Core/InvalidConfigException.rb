@@ -1,4 +1,4 @@
 module Boot::Lib::Core
-	class InvalidConfigException < Exception
-	end
+  class InvalidConfigException < Exception
+  end
 end
