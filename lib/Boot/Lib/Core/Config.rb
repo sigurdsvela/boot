@@ -26,8 +26,8 @@ module Boot::Lib::Core
       # If template dir is defined, but invalid path
       if !@templatesDir.is_a?(Array) && !File.directory?(@templatesDir)
         msg = ''
-        msg << "Invalid config file: templates-dir is not a directory\n"
-        msg << "Please set this to the directory(s) where your\n"
+        msg << "Invalid config file: '#{@templatesDir}' is not a directory\n"
+        msg << "Please set this to the directory(s) where your "
         msg << "templates are located\n"
         fail Boot::Lib::Core::InvalidConfigException.new(msg)
       end
