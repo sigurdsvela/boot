@@ -25,10 +25,11 @@ module Boot
       @subCommands['help'] = Boot::Lib::Commands::Help
       @subCommands['new']  = Boot::Lib::Commands::New
 
+      subCmdObj = @subCommands[ARGV[0].downcase]
+
       if subCmdObj.nil?
         puts "\"#{ARGV[0]}\" is not a sub command. See \"boot help\""
       else
-        subCmdObj = @subCommands[ARGV[0].downcase]
         ARGV.shift; # Remove subcommand from ARGV, rest is options
         subCmdObj.run(ARGV)
       end
