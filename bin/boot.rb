@@ -28,7 +28,7 @@ module Boot
       if ARGV[0] == nil
         Boot::Lib::Commands::Help.run([]);
       elsif @subCommands[ARGV[0]].nil?
-        puts "\"#{ARGV[0]}\" is not a sub command. See \"boot help\""
+        puts "'#{ARGV[0]}' is not a sub command. See 'boot help'"
       else
         subCmdObj = @subCommands[ARGV[0].downcase]
         ARGV.shift; # Remove subcommand from ARGV, rest is options
