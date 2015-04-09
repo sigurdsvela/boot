@@ -8,7 +8,7 @@ module Boot::Lib::Commands
 
   New = Boot::Lib::Core::SubCommand.new(
     'new', # Name of the sub command
-    'Creates a new project form a template',
+    'Creates a new project from a template',
     optionsObj
   ) { |options, args|
     templateName = options.parse(args)['-t']
