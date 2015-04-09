@@ -13,7 +13,7 @@ module Boot::Lib::Commands
   ) { |options, args|
     templateName = options.parse(args)['-t']
     if templateName.nil?
-      puts "\"boot new\" requires the --template [string] option"
+      puts "'boot new' requires the --template [string] option"
     end
 
     # Get template by name
