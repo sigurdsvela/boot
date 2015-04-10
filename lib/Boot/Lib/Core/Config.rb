@@ -1,6 +1,8 @@
 require 'JSON'
 require 'Boot/Lib/Core/InvalidConfigException.rb'
 
+include Boot::Lib::Core
+
 module Boot::Lib::Core
   class Config
     # The include paths
@@ -20,7 +22,7 @@ module Boot::Lib::Core
         msg << "Invalid config file: templates-dir not defined\n"
         msg << "Please set this to the directory(s) where your\n"
         msg << "templates are located\n"
-        fail Boot::Lib::Core::InvalidConfigException.new(msg)
+        fail InvalidConfigException.new(msg)
       end
 
       # If template dir is defined, but invalid path
@@ -29,7 +31,7 @@ module Boot::Lib::Core
         msg << "Invalid config file: '#{@templatesDir}' is not a directory\n"
         msg << "Please set this to the directory(s) where your "
         msg << "templates are located\n"
-        fail Boot::Lib::Core::InvalidConfigException.new(msg)
+        fail InvalidConfigException.new(msg)
       end
 
       # If template dit is an array
@@ -47,7 +49,7 @@ module Boot::Lib::Core
           msg << "Invalid config file:\n"
           msg << 'the path(s): ' + notDirs.join(', ') + "\n"
           msg << "Are not directories\n"
-          fail Boot::Lib::Core::InvalidConfigException.new(msg)
+          fail InvalidConfigException.new(msg)
         end
       end
     end

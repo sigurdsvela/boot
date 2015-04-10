@@ -1,6 +1,8 @@
 require 'Boot/Lib/Core/InvalidTemplateException.rb'
 require 'fileutils.rb'
 
+include Boot::Lib::Core
+
 module Boot::Lib::Core
   class Template
   	attr_reader :name
@@ -24,10 +26,10 @@ module Boot::Lib::Core
   	def initialize(path)
   		# Check the template
   		if (!File.directory?(path))
-  			fail Boot::Lib::Core::InvalidTemplateException.new("Path is not a directory")
+  			fail InvalidTemplateException.new("Path is not a directory")
   		end
   		if (!File.exist?(path + "/template.json"))
-  			fail Boot::Lib::Core::InvalidTemplateException.new("Missing template.json file")
+  			fail InvalidTemplateException.new("Missing template.json file")
   		end
 
   		templateJsonFile = File.open(path + "/template.json")

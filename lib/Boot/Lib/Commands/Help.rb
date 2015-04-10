@@ -1,9 +1,11 @@
 require 'Boot/Lib/Core/SubCommand.rb'
 
+include Boot::Lib::Core
+
 module Boot::Lib::Commands
   optionsObj = Slop::Options.new
 
-  Help = Boot::Lib::Core::SubCommand.new(
+  Help = SubCommand.new(
     'help', # Name of the command
     'Print the help message', # Description
     optionsObj, # Has no options
