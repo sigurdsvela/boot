@@ -2,8 +2,8 @@
 
 args = ARGV.join(' ')
 
-libDir = File.dirname(File.dirname(__FILE__)) + '/lib'
-currentDir = File.dirname(__FILE__)
+currentDir = File.expand_path(File.dirname(__FILE__))
+libDir = File.dirname(currentDir) + '/lib'
 
 # Run the main boot file with desired include path
 exec("ruby -I#{libDir} #{currentDir}/boot.rb #{args}")

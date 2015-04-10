@@ -53,7 +53,7 @@ module Boot::Lib::Core
         puts e.message
         exit(1)
       end
-      puts dir
+      puts path + '/' + static_files + ' to ' + dir
 		  FileUtils.cp_r(path + '/' + static_files + '/.', dir) if (static_files != nil)
     end
 
