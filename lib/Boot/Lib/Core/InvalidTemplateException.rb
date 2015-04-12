@@ -1,4 +1,4 @@
 module Boot::Lib::Core
-	class InvalidTemplateException < Exception
-	end
+  class InvalidTemplateException < Exception
+  end
 end
