@@ -2,9 +2,11 @@ GEM
   remote: https://rubygems.org/
   specs:
     minitest (5.5.1)
+    slop (4.0.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   minitest
+  slop
