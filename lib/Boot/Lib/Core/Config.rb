@@ -1,5 +1,4 @@
 require 'JSON'
-require 'Boot/Lib/Core/InvalidConfigException.rb'
 
 include Boot::Lib::Core
 

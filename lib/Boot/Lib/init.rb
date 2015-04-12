@@ -1,4 +1,5 @@
 require 'slop'
+require 'Boot/Lib/autoload.rb'
 
 module Boot
 end

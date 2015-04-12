@@ -1,6 +1,3 @@
-require 'Boot/Lib/Core/SubCommand.rb'
-require 'Boot/Lib/Core/Template.rb'
-
 include Boot::Lib::Core
 
 module Boot::Lib::Commands

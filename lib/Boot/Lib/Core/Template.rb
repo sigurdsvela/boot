@@ -1,4 +1,3 @@
-require 'Boot/Lib/Core/InvalidTemplateException.rb'
 require 'fileutils.rb'
 
 include Boot::Lib::Core

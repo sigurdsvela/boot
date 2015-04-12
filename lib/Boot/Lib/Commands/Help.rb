@@ -1,5 +1,3 @@
-require 'Boot/Lib/Core/SubCommand.rb'
-
 include Boot::Lib::Core
 
 module Boot::Lib::Commands
