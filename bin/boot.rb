@@ -1,6 +1,6 @@
 
 # Require sub commands
-require 'Boot/Lib/init.rb'
+require 'Boot/Lib/autoload.rb'
 
 require 'Boot/Lib/Core/Config.rb'
 require 'Boot/Lib/Core/InvalidConfigException.rb'
