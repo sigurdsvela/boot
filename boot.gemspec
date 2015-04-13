@@ -4,8 +4,6 @@ Gem::Specification.new do |s|
   s.name        = 'boot'
   s.version     = Boot::VERSION
   s.executables << 'boot'
-  # Puts the config file in the same dir as the exec
-  s.executables << 'boot-config.json'
   s.licenses    = ['GPL']
   s.summary     = "Create projects based on templates"
   s.description = "Allows you to quickly create new projecets based on templates."
