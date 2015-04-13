@@ -10,6 +10,8 @@ require 'Boot/Lib/Commands/Help.rb'
 require 'Boot/Lib/Commands/New.rb'
 
 module Boot
+  VERSION = "0.1.0"
+
   def self.main
     configFilePath = File.dirname(__FILE__) + '/boot-config.json'
 
