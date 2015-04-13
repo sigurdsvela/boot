@@ -17,6 +17,7 @@ module Boot
     @subCommands['help'] = Boot::Lib::Commands::Help
     @subCommands['new']  = Boot::Lib::Commands::New
     @subCommands['config']  = Boot::Lib::Commands::Config
+    @subCommands['version']  = Boot::Lib::Commands::Version
 
     if ARGV[0] == nil
       Boot::Lib::Commands::Help.run([]);
@@ -37,4 +38,3 @@ module Boot
     @subCommands
   end
 end
-Boot.main
