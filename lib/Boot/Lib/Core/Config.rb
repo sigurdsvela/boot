@@ -9,13 +9,9 @@ module Boot::Lib::Core
 
     # The include paths
     attr_reader :templates_path
-  
-    # Initilize with path to config file
-    def initialize(path)
-      @filePath = path
-      @file = File.open(path, 'rb')
-      content = @file.read
-      @config = JSON.parse(content)
+    
+    def _initWithObject(config)
+      @config = config
       @templates_path = @config['templates_path']
 
       # If templates-dir is not defined
@@ -54,6 +50,14 @@ module Boot::Lib::Core
           fail InvalidConfigException.new(msg)
         end
       end
+    end
+
+    # Initilize with path to config file
+    def initialize(path)
+      @filePath = path
+      @file = File.open(path, 'rb')
+      content = @file.read
+      _initWithObject(JSON.parse(content))
     end
   end
 end
