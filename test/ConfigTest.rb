@@ -46,5 +46,18 @@ describe Boot::Lib::Core::Config do
       file.close
       file.unlink
     end
+
+    it 'throws if array of files where 1 is not a valid directory' do
+      Dir.mktmpdir { |dir|
+        config_file = Tempfile.new('foo')
+        config_file.write('{"template_path":["' + dir + '", "not/a/valid/path"]}')
+        config_file.rewind
+        assert_raises(Boot::Lib::Core::InvalidConfigException) {
+          Boot::Lib::Core::Config.new config_file.path
+        }
+        config_file.close
+        config_file.unlink
+      }
+    end
   end
 end
