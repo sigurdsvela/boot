@@ -66,7 +66,7 @@ module Boot::Lib::Core
     # be found
     def self.getTemplateByName(name)
       config = Boot::Main.config
-      includePaths = config.template_include_paths
+      includePaths = config.templates_path
       path = '';
       includePaths.each { |includePath|
         testPath = includePath + '/' + name;

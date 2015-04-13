@@ -8,7 +8,7 @@ module Boot::Lib::Core
     attr_reader :config
 
     # The include paths
-    attr_reader :template_include_paths
+    attr_reader :templates_path
   
     # Initilize with path to config file
     def initialize(path)
@@ -16,10 +16,10 @@ module Boot::Lib::Core
       @file = File.open(path, 'rb')
       content = @file.read
       @config = JSON.parse(content)
-      @template_include_paths = @config['templates-dir']
+      @templates_path = @config['templates_path']
 
       # If templates-dir is not defined
-      if @template_include_paths.nil?
+      if @templates_path.nil?
         msg = ''
         msg << "Invalid config file: templates-dir not defined\n"
         msg << "Please set this to the directory(s) where your\n"
@@ -28,7 +28,7 @@ module Boot::Lib::Core
       end
 
       # If template dir is defined, but invalid path
-      if !@template_include_paths.is_a?(Array) && !File.directory?(@templatesDir)
+      if !@templates_path.is_a?(Array) && !File.directory?(@templatesDir)
         msg = ''
         msg << "Invalid config file: '#{@templatesDir}' is not a directory\n"
         msg << "Please set this to the directory(s) where your "
@@ -37,11 +37,11 @@ module Boot::Lib::Core
       end
 
       # If template dit is an array
-      if @template_include_paths.is_a?(Array)
+      if @templates_path.is_a?(Array)
         notDirs = []
 
         # Add each path that is invalid to notDirs
-        @template_include_paths.each do |path|
+        @templates_path.each do |path|
           notDirs.push(path) unless File.directory? path
         end
 
