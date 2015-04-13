@@ -20,7 +20,7 @@ module Boot::Lib::Core
         msg << "Invalid config file: templates-dir not defined\n"
         msg << "Please set this to the directory(s) where your\n"
         msg << "templates are located\n"
-        fail InvalidConfigException.new(msg)
+        fail InvalidConfigException.new msg
       end
 
       # If template dir is defined, but invalid path
@@ -29,7 +29,7 @@ module Boot::Lib::Core
         msg << "Invalid config file: '#{@templates_path}' is not a directory\n"
         msg << "Please set this to the directory(s) where your "
         msg << "templates are located\n"
-        fail InvalidConfigException.new(msg)
+        fail InvalidConfigException.new msg
       end
 
       # If template dit is an array
@@ -47,7 +47,7 @@ module Boot::Lib::Core
           msg << "Invalid config file:\n"
           msg << 'the path(s): ' + notDirs.join(', ') + "\n"
           msg << "Are not directories\n"
-          fail InvalidConfigException.new(msg)
+          fail InvalidConfigException.new msg
         end
       end
     end
