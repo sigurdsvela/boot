@@ -24,6 +24,7 @@ module Boot
       @subCommands = {}
       @subCommands['help'] = Boot::Lib::Commands::Help
       @subCommands['new']  = Boot::Lib::Commands::New
+      @subCommands['config']  = Boot::Lib::Commands::Config
 
       if ARGV[0] == nil
         Boot::Lib::Commands::Help.run([]);

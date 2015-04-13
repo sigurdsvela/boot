@@ -4,6 +4,9 @@ include Boot::Lib::Core
 
 module Boot::Lib::Core
   class Config
+    #config array
+    attr_reader :config
+
     # The include paths
     attr_reader :template_include_paths
   
