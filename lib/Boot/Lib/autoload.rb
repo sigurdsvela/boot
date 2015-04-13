@@ -5,8 +5,8 @@ module Boot::Lib end
 
 module Boot::Lib::Core
   autoload :Config, File.dirname(__FILE__) + "/Core/Config.rb"
-  autoload :InvalidConfigFile, File.dirname(__FILE__) + "/Core/InvalidConfigFile.rb"
-  autoload :InvalidTemplateFile, File.dirname(__FILE__) + "/Core/InvalidTemplateFile.rb"
+  autoload :InvalidConfigException, File.dirname(__FILE__) + "/Core/InvalidConfigException.rb"
+  autoload :InvalidTemplateException, File.dirname(__FILE__) + "/Core/InvalidTemplateException.rb"
   autoload :SubCommand, File.dirname(__FILE__) + "/Core/SubCommand.rb"
   autoload :Template, File.dirname(__FILE__) + "/Core/Template.rb"
 end
