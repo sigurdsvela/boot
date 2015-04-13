@@ -15,6 +15,5 @@ module Boot::Lib::Commands
   autoload :New, File.dirname(__FILE__) + "/Commands/New.rb"
   autoload :Help, File.dirname(__FILE__) + "/Commands/Help.rb"
   autoload :Config, File.dirname(__FILE__) + "/Commands/Config.rb"
-  puts 'Register autoload for Version'
   autoload :Version, File.dirname(__FILE__) + "/Commands/Version.rb"
 end
