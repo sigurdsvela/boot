@@ -12,14 +12,14 @@ module Boot::Lib::Commands
     parsedOptions = options.parse(args);
     if (!parsedOptions[:all])
       optionName = args[0]
-      optionVal = Boot::Main.config.config[optionName]
+      optionVal = Boot.config.config[optionName]
       if (optionVal == nil)
         puts "No option '#{optionName}'"
       else
         puts "#{optionName} = #{optionVal}"
       end
     else
-      puts Boot::Main.config.config
+      puts Boot.config.config
     end
   }
   @Config

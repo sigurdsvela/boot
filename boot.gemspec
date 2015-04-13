@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/bin/boot.rb'
+
 Gem::Specification.new do |s|
   s.name        = 'boot'
   s.version     = '0.1.0'

@@ -8,7 +8,7 @@ module Boot::Lib::Commands
     'Print the help message', # Description
     optionsObj, # Has no options
   ) do |_options, _args|
-    Boot::Main.getSubCommands.each do |_key, cmd|
+    Boot.getSubCommands.each do |_key, cmd|
       cmd.printHelpMessage
     end
   end
