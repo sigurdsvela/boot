@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.executables << 'boot-config.json'
   s.licenses    = ['GPL']
   s.summary     = "Create projects based on templates"
-  s.description = "Allows you to quickly create new projecets base on templates."
+  s.description = "Allows you to quickly create new projecets based on templates."
   s.authors     = ["Sigurd Berg Svela"]
   s.email       = 'sigurdbergsvela@gmail.com'
   s.files       = `git ls-files -- lib/*`.split("\n") + `git ls-files -- bin/*`.split("\n")
