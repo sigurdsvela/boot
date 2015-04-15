@@ -80,6 +80,5 @@ module Boot::Lib::Core
         return Template.new(path);
       end
     end
-
   end
 end
