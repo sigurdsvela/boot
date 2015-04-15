@@ -1,7 +1,7 @@
 include Boot::Lib::Core
 
 module Boot::Lib::Commands
-  optionsObj = Slop::Options.new
+  optionsObj = Slop::Options.new suppress_errors: true
   optionsObj.string '-t', '--template', 'Spesify template to use'
   optionsObj.string '-o', '--out', 'Spesify where to save the template.', default: File.dirname(__FILE__)
 
@@ -14,6 +14,14 @@ module Boot::Lib::Commands
     
     templateName = parsedOptions[:template]
     outputPath = !parsedOptions[:out].nil? ? Dir.pwd + '/' + parsedOptions[:out] : Dir.pwd
+    
+    # Strip all args before the -- arg, signaling args to the template
+    c = 0
+    while c < args.length do
+      break if (args[c] == '--')
+      c+=1
+    end
+    templateArgs = args[c+1..-1]
 
     if templateName.nil?
       puts "'boot new' requires the --template [string] option"
@@ -27,7 +35,7 @@ module Boot::Lib::Commands
     end
 
     # Create a project base on the template
-    template.create(args, outputPath)
+    template.create(templateArgs, outputPath)
   }
   @New
 end
