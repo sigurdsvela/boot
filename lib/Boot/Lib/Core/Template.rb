@@ -58,6 +58,58 @@ module Boot::Lib::Core
       @description = templateConfig['description']
       @static_files = templateConfig['static']
       @path = path
+      @option_files = templateConfig['options']
+
+      # Create slop option object
+      option_files.each do |option, value|
+        if (!value['files'].nil?) # This is a flag
+          options.on option, value['description']
+        elsif (!value['values'].nil?)  # This is an argument
+          if (!value['default'].nil?)
+            options.string option, value['description'], default:value['default']
+          else
+            options.string option, value['description']
+          end
+        else
+          puts "Inavlid template.json file for #{name}"
+        end
+      end
+
+      # "Parse" option_files array
+      # Forces a spesific structure for this array
+      option_files.each do |flag, optionObject|
+        if (!optionObject['values'].nil?)   # IF IS ARGUMENT
+          values = optionObject['values']   
+          raise InvalidTemplateException.new if (!values.is_a?(Hash))
+
+          values.each do |valueKey, files|
+            if (files.is_a?(Hash) || files.is_s?)
+              values[valueKey] = [values[valueKey]]
+            elsif (!files.is_a?(Array))
+              # Invalid Template
+            end
+
+            i=0
+            values[valueKey].each do |file|
+                # If no dest location spesified, the use just the name of the file
+                values[valueKey][i] = {"#{file}" => "#{file.split('/')[-1]}"} if (file.is_a?(String))
+                i+=1
+            end
+
+            values[valueKey] = [values[valueKey]] if (values[valueKey].is_a?(Hash))
+          end
+        elsif (!optionObject['files'].nil?) # IF IS FLAG
+          files = optionObject['files']   
+          raise InvalidTemplateException.new if (!files.is_a?(Hash))
+
+          files.each do |key, file|
+            files[key] = {"#{files}" => "#{files}"} if (file.is_a?(String))
+            files[key] = [files[key]] if (files[key].is_a?(Hash))
+          end
+        else
+          # Invalid, missing file/values
+        end
+      end
     end
 
     # Create a new "project" base
