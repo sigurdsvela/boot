@@ -10,6 +10,26 @@ module Boot::Lib::Core
     attr_reader :static_files
     attr_reader :path
 
+    # Non static files, based on arguments
+    # Arguments with values, fx. --vcs git, or --vcs=git
+    #
+    # Structure
+    # "--vcs" : {     //Argument options, requires a value
+    #   "values" : {
+    #     "git" : [{"vcs/.gitignore":".gitignore"}],
+    #     "svn" : [{"vcs/.svnignore":".svnignore"}]
+    #   }
+    #   "alias" : ["-v"] //Not implemented yet
+    #   "description" : "Choose version controll system for the project",
+    #   "required" : false,
+    #   "default" : "git" //Can not be used with require:true
+    # }
+    #
+    # "--on-or-off" : {
+    #   "alias" : ["-o", "--on"] //Not implemented yet
+    #   "files" : [{"files/to/add":"some/dir/file"}, {"if/present":"some/dir/file"}],
+    #   "description" : "some description",
+    # }
     attr_reader :option_files
     #Fields, and there validators
     @@REQUIRED_FIELDS = {
