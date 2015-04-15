@@ -31,6 +31,10 @@ module Boot::Lib::Core
     #   "description" : "some description",
     # }
     attr_reader :option_files
+
+    # Slop options object
+    attr_reader :options
+
     #Fields, and there validators
     @@REQUIRED_FIELDS = {
       :description => lambda { |value| return value.is_s? },
@@ -59,6 +63,9 @@ module Boot::Lib::Core
       @static_files = templateConfig['static']
       @path = path
       @option_files = templateConfig['options']
+      @options = Slop::Options.new
+
+      options.banner = "usage: #{$0} new --template #{name} [--out DIR] [options]"
 
       # Create slop option object
       option_files.each do |option, value|
@@ -124,7 +131,61 @@ module Boot::Lib::Core
         puts e.message
         exit(1)
       end
+
+      # Copy over the static files
       FileUtils.cp_r(path + '/' + static_files + '/.', dir) if (static_files != nil)
+
+      # Copy non static files
+      parsedOptions = options.parse(args)
+      option_files.each do |flag, object|
+        files = {}
+        if (!object['values'].nil?)
+          values = object['values']
+          files = values[parsedOptions[flag]]
+          if (files.nil?)
+            if (object['require'])
+              puts "Missing template argument #{flag}"
+              exit(1)
+            else
+              next
+            end
+          end
+        elsif (!object['files'].nil?)
+          if (!parsedOptions[flag])
+            if (object['require'])
+              puts "Missing template argument #{flag}"
+            else
+              next
+            end
+          end
+          files  = object['files']
+        else
+          raise InvalidTemplateException.new
+        end
+
+        files.each do |fileHash|
+          fileHash.each do |src, dest|
+            FileUtils.cp(path + '/' + src, dir + '/' + dest)
+          end
+        end
+      end
+
+      options.each do |key, value|
+        option = option_files[key]
+        if (!option.nil?)
+          filesToCopy = nil
+          if (!option['values'].nil?) # Argument
+            filesToCopy = option['values'][value]
+          elsif (!option['files'].nil?) # Flag
+            filesToCopy = option['files']
+          else
+          end
+
+          filesToCopy.each do |file, outFile|
+            FileUtils.cp(path + '/' + file, dir + '/' + outFile)
+          end
+        end
+      end
     end
 
     # --------- STATIC INTERFACE ----------
