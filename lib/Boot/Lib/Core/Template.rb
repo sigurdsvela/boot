@@ -7,10 +7,10 @@ module Boot::Lib::Core
     attr_reader :name
     attr_reader :description
     attr_reader :static_file
-    attr_reader :arg_files
     attr_reader :static_files
     attr_reader :path
 
+    attr_reader :option_files
     #Fields, and there validators
     @@REQUIRED_FIELDS = {
       :description => lambda { |value| return value.is_s? },
