@@ -1,0 +1,123 @@
+{
+  "$schema"    : "http://json-schema.org/draft-04/schema#",
+  "id"         : "boot-template-schema",
+  "title"      : "Boot Template Schema",
+  "type"       : "object",
+  "required"   : ["name", "description"],
+  "additionalProperties":false,
+  "properties" : {
+    "name" : {
+      "type"        : "string",
+      "description" : "The name of the template"
+    },
+    "description" : {
+      "type"        : "string",
+      "description" : "The description of the template"
+    },
+    "static" : {
+      "description" : "A string or array of folder(s) containing files that should always be included",
+      "oneOf" : [
+        {
+          "type" : "string"
+        },
+        {
+          "type"       : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      ]
+    },
+    "options" : {
+      "description" : "Contains files that are included if a certain option is passed. Where the option is the key, and the files are the object/string/array pointed to. The key must be ",
+      "type" : "object",
+      "additionalProperties" : false,
+      "patternProperties" : {
+        "^\\-\\-.{2,}$" : {
+          "oneOf" : [
+            {"$ref" : "#/definitions/argumentFiles"},
+            {"$ref" : "#/definitions/flagFiles"}
+          ]
+        },
+        "^\\-.$" : {
+          "oneOf" : [
+            {"$ref" : "#/definitions/argumentFiles"},
+            {"$ref" : "#/definitions/flagFiles"}
+          ]
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "qualifiedFiles" : {
+      "description" : "An object containing src and dest path",
+      "type" : "object",
+      "patternProperties" : {
+        ".+" : {
+          "type" : "string",
+          "description" : "The file destination path"
+        }
+      },
+      "additionalProperties" : false
+    },
+    "fileArray" : {
+      "description" : "Array of potentially qualified files, and unqualified files",
+      "type"  : "array",
+      "items" : {
+        "oneOf" : [
+          {"type" : "string"},
+          {"$ref" : "#/definitions/qualifiedFiles"}
+        ]
+      }
+    },
+    "argumentFiles" : {
+      "type" : "object",
+      "required" : ["values", "description"],
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "description" : "Description of this parameter"
+        },
+        "required" : {
+          "type" : "boolean",
+          "description" : "Is this argument required"
+        },
+        "default" : {
+          "type" : "string",
+          "description" : "Default value for this argument. Cancels out 'required:true'"
+        },
+        "values" : {
+          "description" : "What files should be included if the argument is set to the different values.",
+          "type" : "object",
+          "patternProperties" : {
+            ".+" : {
+              "oneOf" : [
+                {"type":"string"},
+                {"$ref" : "#/definitions/qualifiedFiles"},
+                {"$ref" : "#/definitions/fileArray"}
+              ]
+            }
+          }
+        }
+      }
+    },
+    "flagFiles" : {
+      "type" : "object",
+      "required" : ["files", "description"],
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "description" : "Description of this parameter"
+        },
+        "files" : {
+          "description" : "What files should be included if the flag is present",
+          "oneOf" : [
+            {"type" : "string"},
+            {"$ref" : "#/definitions/qualifiedFiles"},
+            {"$ref" : "#/definitions/fileArray"}
+          ]
+        }
+      }
+    }
+  }
+}
