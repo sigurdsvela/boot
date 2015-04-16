@@ -80,7 +80,8 @@ describe "template json schema file" do
     }
   end
 
-  it "failes on singe dash with multiple character option" do
+  it "handles singe dash option" do
+    # Should fail
     assert_raises(JSON::Schema::ValidationError) {
       JSON::Validator.validate!(templateSchema, {
         "name"        => "TemplateName",
@@ -93,6 +94,18 @@ describe "template json schema file" do
         }
       })
     }
+
+    # Should pass
+    JSON::Validator.validate!(templateSchema, {
+      "name"        => "TemplateName",
+      "description" => "Description Of This Template",
+      "options"     => {
+        "-m" => {
+          "files" => "thefile",
+          "description" => "Adds thefile"
+        }
+      }
+    })
   end
 
   it "failes on extra options in root, or in the options" do
