@@ -42,6 +42,10 @@ describe "template json schema file" do
             "value3" => {"src/files" => "dest/path"}
           },
           "description" => "choose files"
+        },
+        "--flag" => {
+          "files" => ["somefile", {"some"=>"qualified", "files"=>"dest"}],
+          "description" => "description"
         }
       }
     })
@@ -89,5 +93,45 @@ describe "template json schema file" do
         }
       })
     }
+  end
+
+  it "failes on extra options in root, or in the options" do
+    base = {
+      "name"        => "TemplateName",
+      "description" => "Description Of This Template",
+      "options"     => {
+        "--flag" => {
+          "files" => "thefile",
+          "description" => "Adds thefile"
+        },
+        "--argument" => {
+          "values" => {
+            "value"  => "somefile",
+            "value2" => ["somefiles"],
+            "value3" => {"src/files" => "dest/path"}
+          },
+          "description" => "Adds thefile"
+        }
+      }
+    }
+    _base = base
+
+    _base["extra"] = "option"
+    assert_raises(JSON::Schema::ValidationError) {
+      JSON::Validator.validate!(templateSchema, _base)
+    }
+    _base = base
+
+    _base["options"]["--argument"]["extra"] = "option"
+    assert_raises(JSON::Schema::ValidationError) {
+      JSON::Validator.validate!(templateSchema, _base)
+    }
+    _base = base
+
+    _base["options"]["--flag"]["extra"] = "option"
+    assert_raises(JSON::Schema::ValidationError) {
+      JSON::Validator.validate!(templateSchema, _base)
+    }
+    _base = base
   end
 end
