@@ -1,6 +1,9 @@
 require 'slop'
 
-module Boot end
+module Boot
+  LIB_PATH = File.dirname(File.dirname(File.expand_path("../", __FILE__)))
+end
+
 module Boot::Lib end
 
 module Boot::Lib::Core
