@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.3.8)
+    json-schema (2.5.1)
+      addressable (~> 2.3.7)
     minitest (5.5.1)
     slop (4.0.0)
 
@@ -8,5 +11,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  json-schema
   minitest
   slop
