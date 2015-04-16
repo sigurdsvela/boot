@@ -1,4 +1,5 @@
 require 'fileutils.rb'
+require 'json-schema'
 
 include Boot::Lib::Core
 
@@ -57,6 +58,20 @@ module Boot::Lib::Core
 
       templateJsonFile = File.open(path + "/template.json")
       templateConfig = JSON.parse(templateJsonFile.read)
+
+      templateJsonSchemaFile = File.open(Boot::LIB_PATH + '/template.json-schema')
+      templateJsonSchema = JSON.parse(templateJsonSchemaFile.read)
+
+      errors = JSON::Validator.fully_validate(templateConfig, templateJsonSchema)
+      if (errors.length > 0)
+        msg = ''
+        msg << 'Invalid template.json file for '
+        msg << "#{name} template in #{path}\n"
+        msg << errors * "\n"
+
+        throw new InvalidTemplateException msg
+      end
+
 
       @name = templateConfig['name'];
       @description = templateConfig['description']
