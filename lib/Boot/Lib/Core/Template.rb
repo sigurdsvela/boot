@@ -90,7 +90,7 @@ module Boot::Lib::Core
           raise InvalidTemplateException.new if (!values.is_a?(Hash))
 
           values.each do |valueKey, files|
-            if (files.is_a?(Hash) || files.is_s?)
+            if (files.is_a?(Hash) || files.is_a?(String))
               values[valueKey] = [values[valueKey]]
             elsif (!files.is_a?(Array))
               # Invalid Template
