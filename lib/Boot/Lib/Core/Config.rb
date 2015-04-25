@@ -12,6 +12,25 @@ module Boot::Lib::Core
     
     def initialize(config)
       @config = config
+
+      # Append the lib/templates dir to templates_path in config
+      if (@config.key?('templates_path'))
+        if (@config['templates_path'].is_a?(String))
+          @config['templates_path'] = [@config['templates_path']]
+        end
+
+        if (!@config['templates_path'].is_a?(Array))
+            msg = "templates_path in config must be either a string or array"
+            fail InvalidConfigException.new msg
+        end
+
+        # Add lib/templates
+        # This will be the last place to look for a template
+        @config['templates_path'].push(Boot.dir + "/templates")
+      else
+
+      end
+
       @templates_path = @config['templates_path']
 
       # If templates-dir is not defined
