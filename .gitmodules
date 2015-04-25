@@ -1,0 +1,3 @@
+[submodule "templates"]
+	path = lib/templates
+	url = https://github.com/sigurdsvela/boot-templates
