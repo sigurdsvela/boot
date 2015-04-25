@@ -44,6 +44,10 @@ module Boot
     end
   end
 
+  def self.dir
+    File.dirname(File.expand_path(__FILE__))
+  end
+
   def self.config
     return @config
   end
