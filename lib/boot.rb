@@ -5,11 +5,23 @@ module Boot
   VERSION = "0.1.0"
 
   def self.main
-    defaultConfigFilePath = File.dirname(__FILE__) + '/boot-config.json'
+    # Open and parse default config
+    defaultConfigFilePath = File.dirname(__FILE__) + '/boot-default-config.json'
     defaultConfigObject = JSON.parse(File.open(defaultConfigFilePath, "rb").read)
+    
+    # Open and barse .boot file
+    dotConfigFilePath = File.expand_path('~/.boot')
+    dotConfigObject = {}
+    if (File.exists?(dotConfigFilePath))
+      dotConfigFile = File.open(dotConfigFilePath, "rb")
+      dotConfigObject = JSON.parse(dotConfigFile.read)
+    end
+
+    # Merge default and .boot
+    configObject = defaultConfigObject.merge(dotConfigObject)
 
     begin
-      @defaultConfig = Boot::Lib::Core::Config.new(defaultConfigObject)
+      @config = Boot::Lib::Core::Config.new(configObject)
     rescue Boot::Lib::Core::InvalidConfigException => e
       puts e.message
       exit
