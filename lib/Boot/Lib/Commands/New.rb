@@ -22,6 +22,9 @@ module Boot::Lib::Commands
       c+=1
     end
     templateArgs = args[c+1..-1]
+    if (templateArgs.nil?) # no -- found
+      templateArgs = []
+    end
 
     if templateName.nil?
       puts "'boot new' requires the --template [string] option"
