@@ -1,13 +1,15 @@
 require_relative 'Boot/Lib/autoload.rb'
+require 'JSON'
 
 module Boot
   VERSION = "0.1.0"
 
   def self.main
-    configFilePath = File.dirname(__FILE__) + '/boot-config.json'
+    defaultConfigFilePath = File.dirname(__FILE__) + '/boot-config.json'
+    defaultConfigObject = JSON.parse(File.open(defaultConfigFilePath, "rb").read)
 
     begin
-      @config = Boot::Lib::Core::Config.new(configFilePath)
+      @defaultConfig = Boot::Lib::Core::Config.new(defaultConfigObject)
     rescue Boot::Lib::Core::InvalidConfigException => e
       puts e.message
       exit
