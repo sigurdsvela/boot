@@ -1,7 +1,7 @@
 $VERBOSE = true
 
 require 'slop'
-require 'Boot/Lib/autoload.rb'
+require 'boot.rb'
 
 require 'minitest/autorun'
 require 'stringio'
