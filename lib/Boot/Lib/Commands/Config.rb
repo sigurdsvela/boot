@@ -6,7 +6,7 @@ module Boot::Lib::Commands
   
   Config = SubCommand.new(
     'config', # Name of the sub command
-    'Read or set configuration options',
+    'Read configuration options',
     optionsObj
   ) { |options, args|
     parsedOptions = options.parse(args);
