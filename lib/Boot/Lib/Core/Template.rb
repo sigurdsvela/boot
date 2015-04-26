@@ -141,7 +141,7 @@ module Boot::Lib::Core
     # somefile
     # would become
     # [{"somefile":"somefile"}]
-    def structureFiles(files)
+    def self.structureFiles(files)
       if (files.is_a?(String))
         return [{"#{files}"=>"#{files}"}]
       end
