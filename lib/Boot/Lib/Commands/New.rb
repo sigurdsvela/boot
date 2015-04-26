@@ -1,4 +1,5 @@
 include Boot::Lib::Core
+include Boot::Lib
 
 module Boot::Lib::Commands
   optionsObj = Slop::Options.new suppress_errors: true
@@ -31,7 +32,7 @@ module Boot::Lib::Commands
     end
 
     # Get template by name
-    template = Template.getTemplateByName(templateName)
+    template = Core::Template.getTemplateByName(templateName)
     if template.nil?
       puts "Fatal: Could not find template #{templateName}"
       exit(1)
