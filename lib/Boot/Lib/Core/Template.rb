@@ -83,7 +83,7 @@ module Boot::Lib::Core
             options.string option, value['description']
           end
         else
-          puts "Inavlid template.json file for #{name}"
+          throw InvalidTemplateException.new "Inavlid template.json file for #{name}"
         end
       end
 
