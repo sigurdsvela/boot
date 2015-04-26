@@ -48,7 +48,7 @@ module Boot::Lib::Commands
     else
       msg = ''
       msg << 'Template:    ' + template.name + "\n"
-      msg << 'Description: ' + template.name + "\n"
+      msg << 'Description: ' + template.description + "\n"
       msg << 'Location:    ' + template.path + "\n"
       msg << "\nOptions\n"
       
