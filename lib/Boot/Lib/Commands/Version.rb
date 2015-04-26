@@ -6,7 +6,8 @@ module Boot::Lib::Commands
   Version = SubCommand.new(
     'version', # Name of the sub command
     'Print the version',
-    optionsObj
+    optionsObj,
+    false
   ) { |options, args|
     puts Boot::VERSION
   }
