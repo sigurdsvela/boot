@@ -1,5 +1,7 @@
 include Boot::Lib::Core
 
+require 'JSON'
+
 module Boot::Lib::Commands
   optionsObj = Slop::Options.new
   optionsObj.on "--all", "Print all config options. Can not be used with any other arguments."
@@ -19,7 +21,7 @@ module Boot::Lib::Commands
         puts "#{optionName} = #{optionVal}"
       end
     else
-      puts Boot.config.config
+      puts JSON.pretty_generate(Boot.config.config)
     end
   }
   @Config
