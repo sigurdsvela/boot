@@ -52,7 +52,7 @@ module Boot::Lib::Commands
       msg << 'Location:    ' + template.path + "\n"
       msg << "\nOptions\n"
       
-      template.option_files.each do |key, value|
+      template.template_options.each do |key, value|
         msg << key
         msg << ' '
 
@@ -63,13 +63,15 @@ module Boot::Lib::Commands
           end
           msg = msg[0..-2] # Remove the last /
           msg << "]\n"
+        elsif(!value['symbol'].nil?)
+          msg << value['symbol']
+          msg << "\n"
         else
           fail if (value['files'].nil?) # Assertion
           msg << "\n"
         end
         msg << "\t" + value['description']
         msg << "\n\n"
-
       end
 
       puts msg

@@ -26,13 +26,15 @@
         "^\\-\\-.{2,}$" : {
           "oneOf" : [
             {"$ref" : "#/definitions/argumentFiles"},
-            {"$ref" : "#/definitions/flagFiles"}
+            {"$ref" : "#/definitions/flagFiles"},
+            {"$ref" : "#/definitions/symbolDefinition"}
           ]
         },
         "^\\-.$" : {
           "oneOf" : [
             {"$ref" : "#/definitions/argumentFiles"},
-            {"$ref" : "#/definitions/flagFiles"}
+            {"$ref" : "#/definitions/flagFiles"},
+            {"$ref" : "#/definitions/symbolDefinition"}
           ]
         }
       }
@@ -58,6 +60,24 @@
           {"type" : "string"},
           {"$ref" : "#/definitions/qualifiedFiles"}
         ]
+      }
+    },
+    "symbolDefinition" : {
+      "type" : "object",
+      "require" : ["symbol", "description"],
+      "properties" : {
+        "symbol" : {
+          "type" : "string",
+          "description" : "the symbol name"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "description of the symbol"
+        },
+        "default" : {
+          "type" : "string",
+          "description" : "default value of the symbol"
+        }
       }
     },
     "argumentFiles" : {

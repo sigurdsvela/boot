@@ -1,5 +1,6 @@
 require 'fileutils.rb'
 require 'json-schema'
+require 'JSON'
 
 include Boot::Lib::Core
 
@@ -35,6 +36,18 @@ module Boot::Lib::Core
     # Slop options object
     attr_reader :options
 
+    # Symbols
+    # {
+    #   "--flag" : {
+    #     "symbol"   : "name"
+    #     "required" : true/false
+    #     "default"  : "" //Not present if require is true
+    #   }
+    # }
+    attr_reader :symbols
+
+    attr_reader :template_options
+
     # Creates a Template object
     # Might throw an InvalidTemplateException
     def initialize(path)
@@ -62,22 +75,22 @@ module Boot::Lib::Core
         throw new InvalidTemplateException msg
       end
 
-
       @name = templateConfig['name'];
       @description = templateConfig['description']
       @static_files = templateConfig['static']
       @path = path
-      @option_files = templateConfig['options']
-      @option_files = {} if @option_files.nil?
+      @template_options = templateConfig['options']
+      @template_options = {} if @template_options.nil?
+
       @options = Slop::Options.new
 
       options.banner = "usage: #{$0} new --template #{name} [--out DIR] [options]"
 
       # Create slop option object
-      option_files.each do |option, value|
+      template_options.each do |option, value|
         if (!value['files'].nil?) # This is a flag
           options.on option, value['description']
-        elsif (!value['values'].nil?)  # This is an argument
+        elsif ((!value['values'].nil?) || (!value['symbol'].nil?))  # This is an argument
           if (!value['default'].nil?)
             options.string option, value['description'], default:value['default']
           else
@@ -87,7 +100,26 @@ module Boot::Lib::Core
           throw InvalidTemplateException.new "Inavlid template.json file for #{name}"
         end
       end
-
+      
+      # Parse out the symbols
+      @option_files = template_options.clone
+      @symbols = {}
+      template_options.each do |key, value|
+        if (!value['symbol'].nil?)
+          # Remove from option_files, this is a symbol
+          option_files.delete(key)
+          symbols[key] = {}
+          
+          symbols[key]['symbol'] = value['symbol']
+          if (!value['default'].nil?)
+            symbols[key]['require'] = false
+            symbols[key]['default'] = value['default']
+          else
+            symbols[key]['require'] = true
+          end
+        end
+      end
+      
       # "Parse" option_files array
       # Forces a spesific structure for this array
       option_files.each do |flag, optionObject|
@@ -97,20 +129,126 @@ module Boot::Lib::Core
 
           values.each do |valueKey, files|
             begin
-              values[valueKey] = structureFiles(files)
+              values[valueKey] = Template.structureFiles(files)
             rescue ArgumentError
               throw new InvalidTemplateException
             end
           end
         elsif (!optionObject['files'].nil?) # IF IS FLAG
           begin
-            optionObject['files'] = structureFiles(optionObject['files'])
+            optionObject['files'] = Template.structureFiles(optionObject['files'])
           rescue ArgumentError
             throw InvalidTemplateException.new
           end
         else
           # Invalid, missing file/values
         end
+      end
+    end
+
+
+    # Create a new "project" base
+    # on this template, to the directory
+    # "dir".
+    def create(args, dir)
+      # Make the output dir if
+      # it does not exist
+      begin
+        Dir.mkdir(dir) if (!Dir.exist?(dir))
+      rescue SystemCallError => e
+        puts e.message
+        exit(1)
+      end
+      
+      # Parse the arguments
+      parsedOptions = options.parse(args)
+
+      definedSymbols = {}
+      symbols.each do |flag, object|
+        if (!parsedOptions[flag].nil?)
+          definedSymbols[object['symbol']] = parsedOptions[flag]
+        end
+      end
+
+
+      # Copy over the static files
+      if (!static_files.nil?)
+        static_file_base = path + '/' + static_files
+        Dir[static_file_base + '/**'].each do |file_path|
+          file_name = file_path[static_file_base.length..-1]
+          file_name = replaceSymbols(file_name, definedSymbols)
+          if (File.directory?(file_path))
+            puts "mkdir #{dir + file_name}"
+            FileUtils.mkdir dir + file_name unless File.exist? dir + file_name
+          else
+            puts "cp #{file_path} to #{file_name}"
+            FileUtils.cp(file_path, dir + file_name)
+          end
+        end
+      end
+
+      # Copy non static files
+      option_files.each do |flag, object|
+        files = {}
+        if (!object['values'].nil?)
+          values = object['values']
+          files = values[parsedOptions[flag]]
+          if (files.nil?)
+            if (object['require'])
+              puts "Missing template argument #{flag}"
+              exit(1)
+            else
+              next
+            end
+          end
+        elsif (!object['files'].nil?)
+          if (!parsedOptions[flag])
+            if (object['require'])
+              puts "Missing template argument #{flag}"
+            else
+              next
+            end
+          end
+          files  = object['files']
+        else
+          raise InvalidTemplateException.new
+        end
+
+        files.each do |fileHash|
+          fileHash.each do |src, dest|
+            dest = replaceSymbols(dest, definedSymbols)
+            FileUtils.cp(path + '/' + src, dir + '/' + dest)
+          end
+        end
+      end
+
+      options.each do |key, value|
+        option = option_files[key]
+        if (!option.nil?)
+          files_to_copy = nil
+          if (!option['values'].nil?) # Argument
+            files_to_copy = option['values'][value]
+          elsif (!option['files'].nil?) # Flag
+            files_to_copy = option['files']
+          else
+          end
+
+          files_to_copy.each do |file, out_file|
+            out_file = replaceSymbols(out_file, definedSymbols)
+            FileUtils.cp(path + '/' + file, dir + '/' + out_file)
+          end
+        end
+      end
+
+      # Replace symbols in content of files
+      Dir.glob(dir + "/**").each do |file|
+        next unless File.file? file
+        file_object_r = File.open(file, "r")
+        file_content = file_object_r.read
+        file_object_r.close
+        file_object_w = File.open(file, "w")
+        file_object_w.write replaceSymbols(file_content, definedSymbols)
+        file_object_w.close
       end
     end
 
@@ -169,73 +307,12 @@ module Boot::Lib::Core
       return structFiles
     end
 
-    # Create a new "project" base
-    # on this template, to the directory
-    # "dir".
-    def create(args, dir)
-      # Make the output dir if
-      # it does not exist
-      begin
-        Dir.mkdir(dir) if (!Dir.exist?(dir))
-      rescue SystemCallError => e
-        puts e.message
-        exit(1)
+    def replaceSymbols(string, findReplace)
+      findReplace.each do |find, replace|
+        puts "#{find} => #{replace}"
+        string = string.gsub("[[!" + find + "]]", replace)
       end
-
-      # Copy over the static files
-      FileUtils.cp_r(path + '/' + static_files + '/.', dir) if (static_files != nil)
-
-      # Copy non static files
-      parsedOptions = options.parse(args)
-      option_files.each do |flag, object|
-        files = {}
-        if (!object['values'].nil?)
-          values = object['values']
-          files = values[parsedOptions[flag]]
-          if (files.nil?)
-            if (object['require'])
-              puts "Missing template argument #{flag}"
-              exit(1)
-            else
-              next
-            end
-          end
-        elsif (!object['files'].nil?)
-          if (!parsedOptions[flag])
-            if (object['require'])
-              puts "Missing template argument #{flag}"
-            else
-              next
-            end
-          end
-          files  = object['files']
-        else
-          raise InvalidTemplateException.new
-        end
-
-        files.each do |fileHash|
-          fileHash.each do |src, dest|
-            FileUtils.cp(path + '/' + src, dir + '/' + dest)
-          end
-        end
-      end
-
-      options.each do |key, value|
-        option = option_files[key]
-        if (!option.nil?)
-          filesToCopy = nil
-          if (!option['values'].nil?) # Argument
-            filesToCopy = option['values'][value]
-          elsif (!option['files'].nil?) # Flag
-            filesToCopy = option['files']
-          else
-          end
-
-          filesToCopy.each do |file, outFile|
-            FileUtils.cp(path + '/' + file, dir + '/' + outFile)
-          end
-        end
-      end
+      return string
     end
 
     # --------- STATIC INTERFACE ----------
