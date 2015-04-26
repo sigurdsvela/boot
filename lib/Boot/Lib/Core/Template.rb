@@ -68,6 +68,7 @@ module Boot::Lib::Core
       @static_files = templateConfig['static']
       @path = path
       @option_files = templateConfig['options']
+      @option_files = {} if @option_files.nil?
       @options = Slop::Options.new
 
       options.banner = "usage: #{$0} new --template #{name} [--out DIR] [options]"
