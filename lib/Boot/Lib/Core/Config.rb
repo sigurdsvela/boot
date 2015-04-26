@@ -24,12 +24,13 @@ module Boot::Lib::Core
             fail InvalidConfigException.new msg
         end
 
-        # Add lib/templates
-        # This will be the last place to look for a template
-        @config['templates_path'].push(Boot.dir + "/templates")
       else
-
+        @config['templates_path'] = []
       end
+      
+      # Add lib/templates
+      # This will be the last place to look for a template
+      @config['templates_path'].push(Boot.dir + "/templates")
 
       @templates_path = @config['templates_path']
 
