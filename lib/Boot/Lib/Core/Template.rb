@@ -36,15 +36,6 @@ module Boot::Lib::Core
     # Slop options object
     attr_reader :options
 
-    #Fields, and there validators
-    @@REQUIRED_FIELDS = {
-      :description => lambda { |value| return value.is_s? },
-      :static      => lambda { |value|
-        # Must be a valid path
-        return value.is_s? && File.directory(value) 
-      }
-    }
-
     # Creates a Template object
     # Might throw an InvalidTemplateException
     def initialize(path)
