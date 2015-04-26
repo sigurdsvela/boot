@@ -31,7 +31,7 @@ describe Boot::Lib::Core::Config do
     it 'throws if array of files where 1 is not a valid directory' do
       Dir.mktmpdir { |dir|
         assert_raises(Boot::Lib::Core::InvalidConfigException) {
-          Boot::Lib::Core::Config.new({"template_path"=>[dir, "not/a/valid/path"]})
+          Boot::Lib::Core::Config.new({"templates_path"=>[dir, "not/a/valid/path"]})
         }
       }
     end
