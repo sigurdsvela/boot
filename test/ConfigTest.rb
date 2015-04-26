@@ -11,12 +11,6 @@ describe Boot::Lib::Core::Config do
       }
     end
 
-    it 'throws if templates_path is not present' do
-      assert_raises(Boot::Lib::Core::InvalidConfigException) {
-        Boot::Lib::Core::Config.new({})
-      }
-    end
-
     it 'throws if templates_path does not exist' do
       assert_raises(Boot::Lib::Core::InvalidConfigException) {
         Boot::Lib::Core::Config.new({"templates_path"=>"not/a/directory"})
