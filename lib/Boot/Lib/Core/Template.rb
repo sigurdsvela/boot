@@ -7,7 +7,6 @@ module Boot::Lib::Core
   class Template
     attr_reader :name
     attr_reader :description
-    attr_reader :static_file
     attr_reader :static_files
     attr_reader :path
 
