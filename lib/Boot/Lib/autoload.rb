@@ -19,4 +19,5 @@ module Boot::Lib::Commands
   autoload :Help, File.dirname(__FILE__) + "/Commands/Help.rb"
   autoload :Config, File.dirname(__FILE__) + "/Commands/Config.rb"
   autoload :Version, File.dirname(__FILE__) + "/Commands/Version.rb"
+  autoload :Template, File.dirname(__FILE__) + "/Commands/Template.rb"
 end

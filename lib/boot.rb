@@ -32,6 +32,7 @@ module Boot
     @subCommands['new']  = Boot::Lib::Commands::New
     @subCommands['config']  = Boot::Lib::Commands::Config
     @subCommands['version']  = Boot::Lib::Commands::Version
+    @subCommands['template']  = Boot::Lib::Commands::Template
 
     if ARGV[0] == nil
       Boot::Lib::Commands::Help.run([]);
