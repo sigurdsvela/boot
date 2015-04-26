@@ -30,7 +30,7 @@ module Boot::Lib::Core
       
       # Add lib/templates
       # This will be the last place to look for a template
-      @config['templates_path'].push(Boot.dir + "/templates")
+      @config['templates_path'].push(Boot.dir + "/templates/templates")
 
       @templates_path = @config['templates_path']
 
