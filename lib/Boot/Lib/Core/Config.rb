@@ -33,16 +33,16 @@ module Boot::Lib::Core
 
       @templates_path = @config['templates_path']
 
-      # If template_paths is not defined
+      # If templates_path is not defined
       if @templates_path.nil?
         msg = ''
-        msg << "Invalid config file: templates-dir not defined\n"
+        msg << "Invalid config file: templates_path not defined\n"
         msg << "Please set this to the directory(s) where your\n"
         msg << "templates are located\n"
         fail InvalidConfigException.new msg
       end
 
-      # If template_paths is defined, but invalid path
+      # If templates_path is defined, but invalid path
       if !@templates_path.is_a?(Array) && !File.directory?(@templates_path)
         msg = ''
         msg << "Invalid config file: '#{@templates_path}' is not a directory\n"
@@ -51,7 +51,7 @@ module Boot::Lib::Core
         fail InvalidConfigException.new msg
       end
 
-      # If template_paths is an array
+      # If templates_path is an array
       if @templates_path.is_a?(Array)
         notDirs = []
 
