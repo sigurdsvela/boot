@@ -96,33 +96,77 @@ module Boot::Lib::Core
           raise InvalidTemplateException.new if (!values.is_a?(Hash))
 
           values.each do |valueKey, files|
-            if (files.is_a?(Hash) || files.is_a?(String))
-              values[valueKey] = [values[valueKey]]
-            elsif (!files.is_a?(Array))
-              # Invalid Template
+            begin
+              values[valueKey] = structureFiles(files)
+            rescue ArgumentError
+              throw new InvalidTemplateException
             end
-
-            i=0
-            values[valueKey].each do |file|
-                # If no dest location spesified, the use just the name of the file
-                values[valueKey][i] = {"#{file}" => "#{file.split('/')[-1]}"} if (file.is_a?(String))
-                i+=1
-            end
-
-            values[valueKey] = [values[valueKey]] if (values[valueKey].is_a?(Hash))
           end
         elsif (!optionObject['files'].nil?) # IF IS FLAG
-          files = optionObject['files']   
-          raise InvalidTemplateException.new if (!files.is_a?(Hash))
-
-          files.each do |key, file|
-            files[key] = {"#{files}" => "#{files}"} if (file.is_a?(String))
-            files[key] = [files[key]] if (files[key].is_a?(Hash))
+          begin
+            optionObject['files'] = structureFiles(optionObject['files'])
+          rescue ArgumentError
+            throw InvalidTemplateException.new
           end
         else
           # Invalid, missing file/values
         end
       end
+    end
+
+    # Makes a file hash/array from a template json
+    # into a predictable structure
+    # For example 
+    # [
+    #   {
+    #     "somefile-src" : "dest",
+    #     "someother-src" : "somedest"
+    #   },
+    #   {
+    #     "file-src" : "somesomedest"
+    #   },
+    #   "filefile"
+    # ]
+    #
+    # will become
+    #
+    # [
+    #   { "somefile-src"  : "dest" },
+    #   { "someother-src" : "somedest"},
+    #   { "file-src"      : "somesomedest" },
+    #   { "filefile"      : "filefile"}
+    # ]
+    #
+    # Or
+    # somefile
+    # would become
+    # [{"somefile":"somefile"}]
+    def structureFiles(files)
+      if (files.is_a?(String))
+        return [{"#{files}"=>"#{files}"}]
+      end
+
+      if (files.is_a?(Hash))
+        files = [files]
+      end
+
+      fail ArgumentError.new unless (files.is_a?(Array))
+
+      structFiles = []
+      files.each do |fileObject|
+        # File object may be a String or Hash
+        if (fileObject.is_a?(String))
+          structFiles.push({"#{fileObject}" => "#{fileObject}"})
+        elsif (fileObject.is_a?(Hash))
+          fileObject.each do |fileSrc, fileDest|
+            structFiles.push("#{fileSrc}" => "#{fileDest}")
+          end
+        else
+          fail ArgumentError.new
+        end
+      end
+
+      return structFiles
     end
 
     # Create a new "project" base
