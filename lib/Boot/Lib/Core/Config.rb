@@ -23,7 +23,6 @@ module Boot::Lib::Core
             msg = "templates_path in config must be either a string or array"
             fail InvalidConfigException.new msg
         end
-
       else
         @config['templates_path'] = []
       end
