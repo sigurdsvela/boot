@@ -5,12 +5,37 @@ require 'JSON'
 
 module Boot::Lib::Commands
   optionsObj = Slop::Options.new
+  optionsObj.on "--list", "List all template names"
   
   Template = SubCommand.new(
     'template', # Name of the sub command
     'Print info for a template',
     optionsObj
   ) { |options, args|
+    parsedOptions = options.parse(args)
+    if (parsedOptions[:list])
+      templates = {}
+
+      Boot.config.templates_path.each do |dir|
+        Dir[dir + "/*"].each do |template_path|
+          name = template_path.split('/')[-1]
+          if (templates[name].nil?)
+            templates[name] = Core::Template.getTemplateByName(name)
+          end
+        end
+      end
+
+      templates.each do |key, value|
+        puts "name:     " + value.name
+        puts "location: " + value.path
+        puts "description:\n"
+        puts value.description
+        puts
+      end
+
+      next
+    end
+
     if (args.length != 1)
       puts "usage 'boot template [template name]'"
     end
