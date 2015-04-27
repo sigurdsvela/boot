@@ -256,7 +256,15 @@ module Boot::Lib::Core
         file_content = file_object_r.read
         file_object_r.close
         file_object_w = File.open(file, "w")
-        file_object_w.write replaceSymbols(file_content, definedSymbols)
+
+        # If this doesent work, dont stress
+        # Probably just not an UTF-8 text file error
+        begin
+          file_object_w.write replaceSymbols(file_content, definedSymbols)
+        rescue ArgumentError => e
+          file_object_w.close
+          next
+        end
         file_object_w.close
       end
     end
