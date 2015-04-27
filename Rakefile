@@ -6,7 +6,9 @@ Rake::TestTask.new do |t|
 end
 
 task :gembuild do
+  print "Building..."
   `gem build boot.gemspec`
+  print "done\n"
 end
 
 task :geminstall do
