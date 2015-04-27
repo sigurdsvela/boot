@@ -65,6 +65,7 @@
     "symbolDefinition" : {
       "type" : "object",
       "require" : ["symbol", "description"],
+      "additionalProperties" : false,
       "properties" : {
         "symbol" : {
           "type" : "string",
@@ -83,6 +84,7 @@
     "argumentFiles" : {
       "type" : "object",
       "required" : ["values", "description"],
+      "additionalProperties" : false,
       "properties" : {
         "description" : {
           "type" : "string",
@@ -114,6 +116,7 @@
     "flagFiles" : {
       "type" : "object",
       "required" : ["files", "description"],
+      "additionalProperties" : false,
       "properties" : {
         "description" : {
           "type" : "string",
