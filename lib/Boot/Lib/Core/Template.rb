@@ -182,7 +182,7 @@ module Boot::Lib::Core
       if (!static_files.nil?)
         static_files.each do |static_files_path|
           static_file_base = path + '/' + static_files_path
-          Dir[static_file_base + '/**'].each do |file_path|
+          Dir[static_file_base + '/**/*'].each do |file_path|
             file_name = file_path[static_file_base.length..-1]
             file_name = replaceSymbols(file_name, definedSymbols)
             if (File.directory?(file_path))
@@ -250,7 +250,7 @@ module Boot::Lib::Core
       end
 
       # Replace symbols in content of files
-      Dir.glob(dir + "/**").each do |file|
+      Dir.glob(dir + "/**/*").each do |file|
         next unless File.file? file
         file_object_r = File.open(file, "r")
         file_content = file_object_r.read
