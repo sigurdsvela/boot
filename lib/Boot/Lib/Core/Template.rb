@@ -78,6 +78,11 @@ module Boot::Lib::Core
       @name = templateConfig['name'];
       @description = templateConfig['description']
       @static_files = templateConfig['static']
+
+      if ((!static_files.is_a?(Array)) && (!static_files.nil?))
+        @static_files = [@static_files]
+      end
+
       @path = path
       @template_options = templateConfig['options']
       @template_options = {} if @template_options.nil?
@@ -175,16 +180,18 @@ module Boot::Lib::Core
 
       # Copy over the static files
       if (!static_files.nil?)
-        static_file_base = path + '/' + static_files
-        Dir[static_file_base + '/**'].each do |file_path|
-          file_name = file_path[static_file_base.length..-1]
-          file_name = replaceSymbols(file_name, definedSymbols)
-          if (File.directory?(file_path))
-            puts "mkdir #{dir + file_name}"
-            FileUtils.mkdir dir + file_name unless File.exist? dir + file_name
-          else
-            puts "cp #{file_path} to #{file_name}"
-            FileUtils.cp(file_path, dir + file_name)
+        static_files.each do |static_files_path|
+          static_file_base = path + '/' + static_files_path
+          Dir[static_file_base + '/**'].each do |file_path|
+            file_name = file_path[static_file_base.length..-1]
+            file_name = replaceSymbols(file_name, definedSymbols)
+            if (File.directory?(file_path))
+              puts "mkdir #{dir + file_name}"
+              FileUtils.mkdir dir + file_name unless File.exist? dir + file_name
+            else
+              puts "cp #{file_path} to #{file_name}"
+              FileUtils.cp(file_path, dir + file_name)
+            end
           end
         end
       end
