@@ -64,7 +64,7 @@
     },
     "symbolDefinition" : {
       "type" : "object",
-      "require" : ["symbol", "description"],
+      "required" : ["symbol", "description"],
       "additionalProperties" : false,
       "properties" : {
         "symbol" : {
