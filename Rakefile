@@ -12,7 +12,9 @@ task :gembuild do
 end
 
 task :geminstall do
+  print "Installing..."
   `sudo gem install boot-* --no-document`
+  print "done\n"
 end
 
 task :default => :test
