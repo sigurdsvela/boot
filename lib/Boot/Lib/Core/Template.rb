@@ -93,6 +93,18 @@ module Boot::Lib::Core
 
       options.banner = "usage: #{$0} new --template #{name} [--out DIR] [options]"
 
+      # Validate static folders
+      @static_files.each do |static_dir_path|
+        msg = ''
+        static_dir_path = path + '/' + static_dir_path
+        if (!File.exist?(static_dir_path) || File.file?(static_dir_path))
+          msg << "static: #{static_dir_path} is not a directory\n"
+        end
+        if (msg != '')
+          fail InvalidTemplateException.new msg
+        end
+      end
+
       # Create slop option object
       template_options.each do |option, value|
         if (!value['files'].nil?) # This is a flag
