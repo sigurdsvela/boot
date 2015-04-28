@@ -16,7 +16,15 @@
     },
     "static" : {
       "description" : "A string or array of folder(s) containing files that should always be included",
-      "type" : "string"
+      "oneOf" : [
+        {"type" : "string"},
+        {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      ]
     },
     "options" : {
       "description" : "Contains files that are included if a certain option is passed. Where the option is the key, and the files are the object/string/array pointed to. The key must be ",
