@@ -65,7 +65,7 @@ module Boot::Lib::Core
       templateJsonSchemaFile = File.open(Boot::LIB_PATH + '/template.json-schema')
       templateJsonSchema = JSON.parse(templateJsonSchemaFile.read)
 
-      errors = JSON::Validator.fully_validate(templateConfig, templateJsonSchema)
+      errors = JSON::Validator.fully_validate(templateJsonSchema, templateConfig)
       if (errors.length > 0)
         msg = ''
         msg << 'Invalid template.json file for '
