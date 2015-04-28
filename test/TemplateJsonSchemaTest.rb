@@ -61,39 +61,36 @@ describe "template json schema file" do
   end
 
   it "failes on missing name property" do
-    assert_raises(JSON::Schema::ValidationError) {
-      JSON::Validator.validate!(templateSchema, {
-        "description" => "Description Of This Template",
-        "static"      => "static/files",
-        "options"     => {}
-      })
-    }
+    errors = JSON::Validator.fully_validate(templateSchema, {
+      "description" => "Description Of This Template",
+      "static"      => "static/files",
+      "options"     => {}
+    })
+    assert(errors.length==1, errors * "\n")
   end
 
   it "failes on missing description" do
-    assert_raises(JSON::Schema::ValidationError) {
-      JSON::Validator.validate!(templateSchema, {
-        "name"        => "TemplateName",
-        "static"      => "static/files",
-        "options"     => {}
-      })
-    }
+    errors = JSON::Validator.fully_validate(templateSchema, {
+      "name"        => "TemplateName",
+      "static"      => "static/files",
+      "options"     => {}
+    })
+    assert(errors.length==1, errors * "\n")
   end
 
   it "handles singe dash option" do
     # Should fail
-    assert_raises(JSON::Schema::ValidationError) {
-      JSON::Validator.validate!(templateSchema, {
-        "name"        => "TemplateName",
-        "description" => "Description Of This Template",
-        "options"     => {
-          "-multiple" => {
-            "files" => "thefile",
-            "description" => "Adds thefile"
-          }
+    errors = JSON::Validator.fully_validate(templateSchema, {
+      "name"        => "TemplateName",
+      "description" => "Description Of This Template",
+      "options"     => {
+        "-multiple" => {
+          "files" => "thefile",
+          "description" => "Adds thefile"
         }
-      })
-    }
+      }
+    })
+    assert(errors.length==1, errors * "\n")
 
     # Should pass
     JSON::Validator.validate!(templateSchema, {
@@ -127,24 +124,35 @@ describe "template json schema file" do
         }
       }
     }
-    _base = base
 
-    _base["extra"] = "option"
-    assert_raises(JSON::Schema::ValidationError) {
-      JSON::Validator.validate!(templateSchema, _base)
-    }
-    _base = base
+    # The base should validate
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==0, errors*"\n")
 
-    _base["options"]["--argument"]["extra"] = "option"
-    assert_raises(JSON::Schema::ValidationError) {
-      JSON::Validator.validate!(templateSchema, _base)
-    }
-    _base = base
+    base["extra"] = "option"
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==1, (errors*"\n") + "\n\n")
+    # Reset the base object
+    base.delete("extra")
 
-    _base["options"]["--flag"]["extra"] = "option"
-    assert_raises(JSON::Schema::ValidationError) {
-      JSON::Validator.validate!(templateSchema, _base)
-    }
-    _base = base
+
+    # The base should validate
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==0, errors*"\n")
+
+    base["options"]["--argument"]["extra"] = "option"
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==1, (errors*"\n") + "\n\n")
+    # Reset the base object
+    base["options"]["--argument"].delete("extra")
+
+
+    # The base should validate
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==0, errors*"\n")
+
+    base["options"]["--flag"]["extra"] = "option"
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==1, (errors*"\n") + "\n\n")
   end
 end
