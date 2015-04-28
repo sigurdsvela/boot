@@ -12,9 +12,24 @@ task :gembuild do
 end
 
 task :geminstall do
-  print "Installing..."
-  `sudo gem install boot-* --no-document`
-  print "done\n"
+  loading = Thread.new {
+    i = 3
+    while (true) do
+      print "\r"
+      print "              "
+      print "\r"
+      print "Installing"
+      print '.' * ((i%4))
+      i+=1
+      sleep 0.2
+    end
+  }
+  install = Thread.new {
+    `sudo gem install boot-* --no-document`
+  }
+  install.join
+  loading.exit
+  puts 'done'
 end
 
 task :default => :test
