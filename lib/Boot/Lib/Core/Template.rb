@@ -186,10 +186,8 @@ module Boot::Lib::Core
             file_name = file_path[static_file_base.length..-1]
             file_name = replaceSymbols(file_name, definedSymbols)
             if (File.directory?(file_path))
-              puts "mkdir #{dir + file_name}"
               FileUtils.mkdir dir + file_name unless File.exist? dir + file_name
             else
-              puts "cp #{file_path} to #{file_name}"
               FileUtils.cp(file_path, dir + file_name)
             end
           end
@@ -326,7 +324,6 @@ module Boot::Lib::Core
 
     def replaceSymbols(string, findReplace)
       findReplace.each do |find, replace|
-        puts "#{find} => #{replace}"
         string = string.gsub("[[!" + find + "]]", replace)
       end
       return string
