@@ -59,11 +59,11 @@ module Boot::Lib::Core
         fail InvalidTemplateException.new("Missing template.json file")
       end
 
-      templateJsonFile = File.open(path + "/template.json")
+      templateJsonFile = File.open(path + "/template.json", "r")
       templateConfig = JSON.parse(templateJsonFile.read)
       templateJsonFile.close
 
-      templateJsonSchemaFile = File.open(Boot::LIB_PATH + '/template.json-schema')
+      templateJsonSchemaFile = File.open(Boot::LIB_PATH + '/template.json-schema', "r")
       templateJsonSchema = JSON.parse(templateJsonSchemaFile.read)
       templateJsonSchemaFile.close
 
