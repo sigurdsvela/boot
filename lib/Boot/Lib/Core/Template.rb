@@ -72,7 +72,7 @@ module Boot::Lib::Core
         msg << "#{name} template in #{path}\n"
         msg << errors * "\n"
 
-        throw new InvalidTemplateException msg
+        throw InvalidTemplateException.new msg
       end
 
       @name = templateConfig['name'];
