@@ -1,0 +1,26 @@
+{
+  "name" : "Perfect",
+  "description" : "This is a good template",
+  "static" : ["static", "static2"],
+
+  "options" : {
+    "--option" : {
+      "description" : "a description",
+      "values" : {
+        "value1" : [
+          "some-files/file1",
+          {"some-files/file2" : "destfile.txt"}
+        ],
+        "value2" : "some-files/file2"
+      }
+    },
+    "--flag" : {
+      "description" : "a description",
+      "files" : "some-files/flag-file"
+    },
+    "--symbol" : {
+      "description" : "a description",
+      "symbol" : "symbol-id"
+    }
+  }
+}

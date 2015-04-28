@@ -1,0 +1,11 @@
+{
+  "name" : "Missing Flag Description",
+  "description" : "The flag is missing description",
+  "static" : "static",
+
+  "options" : {
+    "--flag" : {
+      "files" : "template.json"
+    }
+  }
+}

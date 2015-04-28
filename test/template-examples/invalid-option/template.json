@@ -1,0 +1,11 @@
+{
+  "name" : "Invalid Option",
+  "description" : "description",
+  "static" : "static",
+
+  "options" : {
+    "--option" : {
+      "description" : "Matches no type of options"
+    }
+  }
+}

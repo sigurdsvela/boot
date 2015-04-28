@@ -1,0 +1,11 @@
+{
+  "name" : "Missing description",
+  "static" : "static",
+
+  "options" : {
+    "--option" : {
+      "files" : "template.json",
+      "description" : "This template is missing a description"
+    }
+  }
+}

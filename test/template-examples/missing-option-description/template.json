@@ -1,0 +1,13 @@
+{
+  "name" : "Missing Option Description",
+  "description" : "The option is missing its description",
+  "static" : "static",
+
+  "options" : {
+    "--option" : {
+      "values" : {
+        "some-value" : "template.json"
+      }
+    }
+  }
+}

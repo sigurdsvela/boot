@@ -1,0 +1,7 @@
+{
+  "name" : "static-folders-invalid",
+  "description" : "Static field is of wrong type",
+  "static" : ["static", {"invalid-type":"invalid-type"}],
+
+  "options" : {}
+}

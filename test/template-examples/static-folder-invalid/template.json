@@ -1,0 +1,7 @@
+{
+  "name" : "static-folder-invalid",
+  "description" : "The static folder does not exist",
+  "static" : "static",
+
+  "options" : {}
+}

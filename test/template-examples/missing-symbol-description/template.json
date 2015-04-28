@@ -1,0 +1,11 @@
+{
+  "name" : "Missing Symbol Description",
+  "description" : "The symbol is missing it's description",
+  "static" : "static",
+
+  "options" : {
+    "--symbol" : {
+      "symbol" : "symbol-id"
+    }
+  }
+}
