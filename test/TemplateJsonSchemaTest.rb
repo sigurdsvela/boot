@@ -78,6 +78,59 @@ describe "template json schema file" do
     assert(errors.length==1, errors * "\n")
   end
 
+  it "failes on missing description in flag, argument or symbol option" do
+    base = {
+      "name"        => "TemplateName",
+      "description" => "Description Of This Template",
+      "options"     => {
+        "--flag" => {
+          "files" => "thefile",
+          "description" => "Adds thefile"
+        },
+        "--argument" => {
+          "values" => {
+            "value"  => "somefile",
+            "value2" => ["somefiles"],
+            "value3" => {"src/files" => "dest/path"}
+          },
+          "description" => "Adds thefile"
+        },
+        "--symbol" => {
+          "symbol" => "symbol-name",
+          "description" => "Sets some symbol"
+        }
+      }
+    }
+
+    # Should validate
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==0, (errors*"\n") + "\n\n")
+
+
+    # Missing description in --flag
+    tmp = base["options"]["--flag"]["description"]
+    base["options"]["--flag"].delete("description")
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==1, (errors*"\n") + "\n\n")
+    # Restore base object
+    base["options"]["--flag"]["description"] = tmp
+
+
+    # Missing description in --argument
+    tmp = base["options"]["--argument"]["description"]
+    base["options"]["--argument"].delete("description")
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==1, (errors*"\n") + "\n\n")
+    # Restore base object
+    base["options"]["--argument"]["description"] = tmp
+
+
+    # Missing description in --symbol
+    base["options"]["--symbol"].delete("description")
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==1, (errors*"\n") + "\n\n")
+  end
+
   it "handles singe dash option" do
     # Should fail
     errors = JSON::Validator.fully_validate(templateSchema, {
@@ -121,6 +174,10 @@ describe "template json schema file" do
             "value3" => {"src/files" => "dest/path"}
           },
           "description" => "Adds thefile"
+        },
+        "--symbol" => {
+          "symbol" => "symbol-name",
+          "description" => "Set value of symbol name"
         }
       }
     }
@@ -152,6 +209,17 @@ describe "template json schema file" do
     assert(errors.length==0, errors*"\n")
 
     base["options"]["--flag"]["extra"] = "option"
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==1, (errors*"\n") + "\n\n")
+    # Reset the base object
+    base["options"]["--flag"].delete("extra")
+
+
+    # The base should validate
+    errors = JSON::Validator.fully_validate(templateSchema, base)
+    assert(errors.length==0, errors*"\n")
+
+    base["options"]["--symbol"]["extra"] = "option"
     errors = JSON::Validator.fully_validate(templateSchema, base)
     assert(errors.length==1, (errors*"\n") + "\n\n")
   end
