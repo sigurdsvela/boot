@@ -30,7 +30,6 @@ module Boot::Lib::Core
           # Starting in the user directory
           user_dir = File.expand_path('~/')
           path = @config['templates_path'][i]
-          puts path
           @config['templates_path'][i] = File.expand_path(path, user_dir)
           i+=1
         end
