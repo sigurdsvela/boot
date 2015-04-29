@@ -25,7 +25,7 @@ task :geminstall do
     end
   }
   install = Thread.new {
-    `sudo gem install boot-* --no-document`
+    `sudo gem install boot-*`
   }
   install.join
   loading.exit
