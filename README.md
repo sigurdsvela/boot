@@ -21,7 +21,7 @@ $ boot new -t template-name -o output-directory
 ### List all templates
 To list all avaiable templates run
 ```shell
-$ boot tempalte --list
+$ boot template --list
 ```
 
 ### Template spesific options
@@ -107,7 +107,7 @@ Lets set up our static files first
 Boot already created the static directory, so we'll just create an index.php in this dir.
 
 ```shell
-$ cd ~/boot-tempaltes/php
+$ cd ~/boot-templates/php
 $ echo "<?php" > static/index.php
 ```
 
@@ -165,7 +165,7 @@ After you edit it, it should look like this
 
 The only thing we add is the "--vcs : [...]" part
 The description key is the description of this option, and will
-be displayed when the user runs `boot tempalte php`.
+be displayed when the user runs `boot template php`.
 The values are the different values this option may be, which point to the files
 that should be included if the option is that value.
 You'll notice that "git" point to an object. This is because, if you just write "vcs/.gitignore" as a string
