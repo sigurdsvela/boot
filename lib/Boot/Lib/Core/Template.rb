@@ -197,6 +197,9 @@ module Boot::Lib::Core
         static_files.each do |static_files_path|
           static_file_base = path + '/' + static_files_path
           Dir[static_file_base + '/**/*'].each do |file_path|
+            # Do not copy dummy files
+            next if (File.basename(file_path) == "___dummy-file___")
+            
             file_name = file_path[static_file_base.length..-1]
             file_name = replaceSymbols(file_name, definedSymbols)
             if (File.directory?(file_path))
