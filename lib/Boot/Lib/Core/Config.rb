@@ -23,6 +23,17 @@ module Boot::Lib::Core
             msg = "templates_path in config must be either a string or array"
             fail InvalidConfigException.new msg
         end
+
+        i = 0
+        while (i < @config['templates_path'].length)
+          # Expand all paths in templates_path
+          # Starting in the user directory
+          user_dir = File.expand_path('~/')
+          path = @config['templates_path'][i]
+          puts path
+          @config['templates_path'][i] = File.expand_path(path, user_dir)
+          i+=1
+        end
       else
         @config['templates_path'] = []
       end
