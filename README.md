@@ -1,7 +1,7 @@
 # boot
 A command line tool for quickly creating starting points for projects based on different templates
 
-Boot contains different templates to create different types of projects(see 'List all templates')
+Boot contains different templates to create different types of projects([List all templates](#list-all-templates))
 
 ## Installation
 Currenly, to install boot, you must clone the repository(make sure to clone *all submodules*)
