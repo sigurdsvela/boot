@@ -201,7 +201,7 @@ module Boot::Lib::Core
             next if (File.basename(file_path) == "___dummy-file___")
             
             file_name = file_path[static_file_base.length..-1]
-            file_name = replaceSymbols(file_name, definedSymbols)
+            file_name = replace_symbols(file_name, definedSymbols)
             if (File.directory?(file_path))
               FileUtils.mkdir dir + file_name unless File.exist? dir + file_name
             else
@@ -240,7 +240,7 @@ module Boot::Lib::Core
 
         files.each do |fileHash|
           fileHash.each do |src, dest|
-            dest = replaceSymbols(dest, definedSymbols)
+            dest = replace_symbols(dest, definedSymbols)
             FileUtils.cp(path + '/' + src, dir + '/' + dest)
           end
         end
@@ -258,7 +258,7 @@ module Boot::Lib::Core
           end
 
           files_to_copy.each do |file, out_file|
-            out_file = replaceSymbols(out_file, definedSymbols)
+            out_file = replace_symbols(out_file, definedSymbols)
             FileUtils.cp(path + '/' + file, dir + '/' + out_file)
           end
         end
@@ -339,7 +339,7 @@ module Boot::Lib::Core
       return structFiles
     end
 
-    def replaceSymbols(string, findReplace)
+    def replace_symbols(string, findReplace)
       findReplace.each do |find, replace|
         string = string.gsub("[[!" + find + "]]", replace)
       end
