@@ -1,3 +1,7 @@
+if (File.exists?('boot'))
+  puts "Error: can not download into './boot'. Allready exists"
+  exit()
+end
 puts "Downloading boot..."
 `git clone https://github.com/sigurdsvela/boot`
 Dir.chdir("boot") do
