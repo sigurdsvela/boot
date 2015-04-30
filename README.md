@@ -5,9 +5,17 @@ Boot contains different templates to create different types of projects([List al
 
 ## Installation
 Currenly, to install boot, you must clone the repository(make sure to clone *all submodules*)
-and then run
+
+Run this script to install.
 ```shell
-$ rake gembuild geminstall
+$ git clone https://github.com/sigurdsvela/boot
+$ cd boot
+$ git submodule init
+$ git submodule update
+$ cd lib/templates
+$ git submodule init
+$ git submodule update
+$ sudo rake gembuild geminstall
 ```
 
 ## Usage
