@@ -148,14 +148,14 @@ module Boot::Lib::Core
 
           values.each do |valueKey, files|
             begin
-              values[valueKey] = Template.structureFiles(files)
+              values[valueKey] = Template.structure_files(files)
             rescue ArgumentError
               throw new InvalidTemplateException
             end
           end
         elsif (!optionObject['files'].nil?) # IF IS FLAG
           begin
-            optionObject['files'] = Template.structureFiles(optionObject['files'])
+            optionObject['files'] = Template.structure_files(optionObject['files'])
           rescue ArgumentError
             throw InvalidTemplateException.new
           end
@@ -311,7 +311,7 @@ module Boot::Lib::Core
     # somefile
     # would become
     # [{"somefile":"somefile"}]
-    def self.structureFiles(files)
+    def self.structure_files(files)
       if (files.is_a?(String))
         return [{"#{files}"=>"#{files}"}]
       end

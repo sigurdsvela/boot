@@ -57,17 +57,17 @@ describe Template do
   end
 
 
-  describe "#structureFiles" do
+  describe "#structure_files" do
     it "structures string" do
       assert_equal(
-        Template.structureFiles("somefile"),
+        Template.structure_files("somefile"),
         [{"somefile"=>"somefile"}]
       )
     end
 
     it "structures array of string" do
       assert_equal(
-        Template.structureFiles(
+        Template.structure_files(
           [
             "somefile",
             "somefile2",
@@ -82,7 +82,7 @@ describe Template do
 
     it "structures array of string and hashes" do
       assert_equal(
-        Template.structureFiles(
+        Template.structure_files(
           [
             "somefile",
             "somefile2",
@@ -99,7 +99,7 @@ describe Template do
 
     it "structures array of string and multi hashes" do
       assert_equal(
-        Template.structureFiles(
+        Template.structure_files(
           [
             "somefile",
             "somefile2",
