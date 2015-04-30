@@ -4,18 +4,9 @@ A command line tool for quickly creating starting points for projects based on d
 Boot contains different templates to create different types of projects([List all templates](#list-all-templates))
 
 ## Installation
-Currenly, to install boot, you must clone the repository(make sure to clone *all submodules*)
-
-Run this script to install.
+Run this in your terminal to install.
 ```shell
-$ git clone https://github.com/sigurdsvela/boot
-$ cd boot
-$ git submodule init
-$ git submodule update
-$ cd lib/templates
-$ git submodule init
-$ git submodule update
-$ sudo rake gembuild geminstall
+$ curl -sSL https://raw.github.com/sigurdsvela/boot/install.rb | ruby
 ```
 
 ## Usage
