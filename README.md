@@ -337,6 +337,11 @@ require_once __DIR__ . "/autoload.php"
 
 [[!symbol]] is the syntax for retriving the value of a symbol
 
+Now you could run
+```shell
+$ boot new -t PHP -o my-php-project -- --name SPARTA
+```
+
 Footnote:
 I didn't find an easy way to include this info in the walkthough, so
 
