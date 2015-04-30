@@ -61,7 +61,7 @@ $ cd new-plugin
 $ wordpress-plugin --name "My Plugin" --description "Does stuff"
 ```
 
-## Custom templates walkthrough
+## Writing custom templates walkthrough
 
 You can write your own templates, and make use of them with boot.
 To do this, you first need to create a directory were you templates are.
