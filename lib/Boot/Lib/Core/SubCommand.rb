@@ -20,7 +20,7 @@ module Boot::Lib::Core
         # If no option spesified, assume --help
         # The underscore is a hack, see rescue block
         if (assume_help)
-          fail Slop::UnknownOption.new "--help_" if (args.length == 0)
+          fail Slop::UnknownOption.new "Unknown option --help", "--help" if (args.length == 0)
         end
 
         @options.parse(args); # Dryrun to check for argument errors
@@ -28,7 +28,7 @@ module Boot::Lib::Core
       rescue Slop::UnknownOption => e
         # Hack to get around the lack of e.getUnknownOption()
         # TODO Fix once avaiable
-        if (e.message[-7..-2] == '--help')
+        if (e.flag == '--help')
           printHelpMessage
         else
           puts "#{e.message}. Try boot #{@name} --help"
