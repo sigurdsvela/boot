@@ -27,7 +27,7 @@ module Boot::Lib::Commands
       end
 
       templates.each do |key, value|
-        if (parsedOptions[:vebose])
+        if (parsedOptions[:verbose])
           puts "key:      " + key
           puts "name:     " + value.name
           puts "location: " + value.path
