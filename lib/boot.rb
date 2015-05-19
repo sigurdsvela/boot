@@ -6,40 +6,40 @@ module Boot
 
   def self.main
     # Open and parse default config
-    defaultConfigFilePath = File.dirname(__FILE__) + '/boot-default-config.json'
-    defaultConfigObject = JSON.parse(File.open(defaultConfigFilePath, "rb").read)
+    default_config_file_path = File.dirname(__FILE__) + '/boot-default-config.json'
+    default_config_object = JSON.parse(File.open(default_config_file_path, "rb").read)
     
     # Open and barse .boot file
-    dotConfigFilePath = File.expand_path('~/.boot')
-    dotConfigObject = {}
-    if (File.exists?(dotConfigFilePath))
-      dotConfigFile = File.open(dotConfigFilePath, "rb")
-      dotConfigObject = JSON.parse(dotConfigFile.read)
+    dot_config_file_path = File.expand_path('~/.boot')
+    dot_config_object = {}
+    if (File.exists?(dot_config_file_path))
+      dot_config_file = File.open(dot_config_file_path, "rb")
+      dot_config_object = JSON.parse(dot_config_file.read)
     end
 
     # Merge default and .boot
-    configObject = defaultConfigObject.merge(dotConfigObject)
+    config_object = default_config_object.merge(dot_config_object)
 
     begin
-      @config = Boot::Lib::Core::Config.new(configObject)
+      @config = Boot::Lib::Core::Config.new(config_object)
     rescue Boot::Lib::Core::InvalidConfigException => e
       puts e.message
       exit
     end
 
-    @subCommands = {}
-    @subCommands['help'] = Boot::Lib::Commands::Help
-    @subCommands['new']  = Boot::Lib::Commands::New
-    @subCommands['config']  = Boot::Lib::Commands::Config
-    @subCommands['version']  = Boot::Lib::Commands::Version
-    @subCommands['template']  = Boot::Lib::Commands::Template
+    @sub_commands = {}
+    @sub_commands['help'] = Boot::Lib::Commands::Help
+    @sub_commands['new']  = Boot::Lib::Commands::New
+    @sub_commands['config']  = Boot::Lib::Commands::Config
+    @sub_commands['version']  = Boot::Lib::Commands::Version
+    @sub_commands['template']  = Boot::Lib::Commands::Template
 
     if ARGV[0] == nil
       Boot::Lib::Commands::Help.run([]);
-    elsif @subCommands[ARGV[0]].nil?
+    elsif @sub_commands[ARGV[0]].nil?
       puts "'#{ARGV[0]}' is not a sub command. See 'boot help'"
     else
-      subCmdObj = @subCommands[ARGV[0].downcase]
+      subCmdObj = @sub_commands[ARGV[0].downcase]
       ARGV.shift; # Remove subcommand from ARGV, rest is options
       subCmdObj.run(ARGV)
     end
@@ -53,7 +53,8 @@ module Boot
     return @config
   end
 
-  def self.getSubCommands
-    @subCommands
+  #attr_reader :sub_commands
+  def self.sub_commands
+    return @sub_commands
   end
 end

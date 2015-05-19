@@ -4,30 +4,30 @@ include Boot::Lib
 require 'JSON'
 
 module Boot::Lib::Commands
-  optionsObj = Slop::Options.new
-  optionsObj.on "--list", "List all template names"
-  optionsObj.on "-v", "--verbose", "Print more info"
+  options_obj = Slop::Options.new
+  options_obj.on "--list", "List all template names"
+  options_obj.on "-v", "--verbose", "Print more info"
   
   Template = SubCommand.new(
     'template', # Name of the sub command
     'Print info for a template',
-    optionsObj
+    options_obj
   ) { |options, args|
-    parsedOptions = options.parse(args)
-    if (parsedOptions[:list])
+    parsed_options = options.parse(args)
+    if (parsed_options[:list])
       templates = {}
 
       Boot.config.templates_path.each do |dir|
         Dir[dir + "/*"].each do |template_path|
           name = template_path.split('/')[-1]
           if (templates[name].nil?)
-            templates[name] = Core::Template.getTemplateByName(name)
+            templates[name] = Core::Template.get_template_by_name(name)
           end
         end
       end
 
       templates.each do |key, value|
-        if (parsedOptions[:verbose])
+        if (parsed_options[:verbose])
           puts "key:      " + key
           puts "name:     " + value.name
           puts "location: " + value.path
@@ -47,7 +47,7 @@ module Boot::Lib::Commands
     end
 
     template_name = args[0]
-    template = Core::Template.getTemplateByName(template_name)
+    template = Core::Template.get_template_by_name(template_name)
 
     if (template.nil?)
       puts "Could not find template '#{template_name}'"
