@@ -22,8 +22,19 @@ module Boot::Lib::Commands
       next
     end
 
+
     output_path = !parsed_options[:out].nil? ? Dir.pwd + '/' + parsed_options[:out] : Dir.pwd
-    
+
+    if (Dir.exists?(output_path) && !(Dir.entries(output_path) - %w{ . .. }).empty?)
+      puts "Error: #{output_path} exists and is not empty"
+      next # terminate
+    end
+
+    if (File.exists?(output_path))
+      puts "Error: #{output_path} exists and is a file"
+      next # terminate
+    end
+
     # Strip all args before the -- arg, signaling args to the template
     c = 0
     while c < args.length do
@@ -43,7 +54,7 @@ module Boot::Lib::Commands
     end
 
     # Create a project base on the template
-    puts "Creating #{output_path} base on '#{template.name}' template"
+    puts "Creating #{output_path} based on '#{template.name}' template"
     creation_thread = Thread.new {
       begin
         template.create(template_args, output_path)
