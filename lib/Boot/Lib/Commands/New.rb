@@ -14,6 +14,13 @@ module Boot::Lib::Commands
     parsedOptions = options.parse(args)
     
     templateName = parsedOptions[:template]
+    # If template not defined, and first arg is not a option
+    # it is the template name
+    if (templateName.nil? && !Boot::Lib::Core::SubCommand.is_flag(args[0]))
+      templateName = args[0]
+    end
+
+    puts templateName
     outputPath = !parsedOptions[:out].nil? ? Dir.pwd + '/' + parsedOptions[:out] : Dir.pwd
     
     # Strip all args before the -- arg, signaling args to the template

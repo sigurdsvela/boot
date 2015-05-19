@@ -15,4 +15,26 @@ describe Boot::Lib::Core::SubCommand do
     end
   end
 
+  describe "#is_flag" do
+    it "returns true for single dash flags" do
+      assert Boot::Lib::Core::SubCommand.is_flag("-f")
+    end
+
+    it "returns true for double dash flags" do
+      assert Boot::Lib::Core::SubCommand.is_flag("--f")
+    end
+
+    it "returns true for multi character double dash flags" do
+      assert Boot::Lib::Core::SubCommand.is_flag("--fdsa")
+    end
+
+    it "returns false for multi character single dash flags" do
+      assert !Boot::Lib::Core::SubCommand.is_flag("-fdsa")
+    end
+
+    it "returns false on missing dashes" do
+      assert !Boot::Lib::Core::SubCommand.is_flag("fdsa")
+    end
+  end
+
 end
