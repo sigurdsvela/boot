@@ -14,7 +14,13 @@ $ curl -sSL https://raw.github.com/sigurdsvela/boot/install.rb | ruby
 ### Create new project
 To create a new project base on a template run
 ```shell
-$ boot new -t template-name -o output-directory
+$ boot new template-name --out output-directory
+```
+
+Or use the -o shorthand
+
+```shell
+$ boot new template-name -o output-directory
 ```
 
 ### List all templates
@@ -36,7 +42,7 @@ When passing options to a template, -- is used to seperate options to the *new* 
 ```shell
 $ boot new [options to the 'new' subcommand] -- [options to the spesified template]
 # For example
-$ boot new -t gem -o my-gem -- --name "My Gem" --description "Does gemmy things"
+$ boot new gem -o my-gem -- --name "My Gem" --description "Does gemmy things"
 ```
 
 
@@ -47,7 +53,7 @@ If you mostly create project of a spesific type, say, wordpress-plugins, you can
 practical
 
 ```shell
-$ alias "wordpress-plugin"="boot new -t wordpress-plugin -o . --"
+$ alias "wordpress-plugin"="boot new wordpress-plugin -o . --"
 ```
 
 This aliases the boot command that creates the starting point of a WordPress plugin in the current directory
@@ -95,7 +101,7 @@ We'll use boot to create a starting point for out new boot-template
 
 ```shell
 $ cd ~/boot-templates
-$ boot new -t boot-template -o php -- --name PHP --description "Starting point for a PHP project"
+$ boot new boot-template -o php -- --name PHP --description "Starting point for a PHP project"
 ```
 
 Quick overview. All boot templates can have "static" and "option" files. Static files included no matter what
@@ -113,7 +119,7 @@ $ echo "<?php" > static/index.php
 Now, whenever you run
 
 ```shell
-$ boot new -t php -o some-dir
+$ boot new php -o some-dir
 ```
 
 Boot will create `some-dir` and put the index.php file in there.
@@ -206,9 +212,9 @@ Now lets edit the template.json file to accept svn
 Right, so now you can run
 
 ```shell
-$ boot new -t php -o some-project -- --vcs git
+$ boot new php -o some-project -- --vcs git
 # or
-$ boot new -t php -o some-project -- --vcs svn
+$ boot new php -o some-project -- --vcs svn
 ```
 
 ### Flag options
@@ -273,7 +279,7 @@ Lets edit our template.json file
 
 Now you can run
 ```shell
-$ boot new -t php -o some-project -- --autoloaded
+$ boot new php -o some-project -- --autoloaded
 ```
 
 And the index.php will contain the "require_once[...]" line, and the autoloaded.php file will be included
@@ -339,7 +345,7 @@ require_once __DIR__ . "/autoload.php"
 
 Now you could run
 ```shell
-$ boot new -t PHP -o my-php-project -- --name SPARTA
+$ boot new PHP -o my-php-project -- --name SPARTA
 ```
 
 Footnote:
