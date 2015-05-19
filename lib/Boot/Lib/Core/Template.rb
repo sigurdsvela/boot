@@ -182,10 +182,10 @@ module Boot::Lib::Core
       # Parse the arguments
       parsedOptions = options.parse(args)
 
-      definedSymbols = {}
+      defined_symbols = {}
       symbols.each do |flag, object|
         if (!parsedOptions[flag].nil?)
-          definedSymbols[object['symbol']] = parsedOptions[flag]
+          defined_symbols[object['symbol']] = parsedOptions[flag]
         elsif (object['require']) # Not defined and required
           throw ArgumentError.new "Must define '#{flag}' for '#{name}' template"
         end
@@ -201,7 +201,7 @@ module Boot::Lib::Core
             next if (File.basename(file_path) == "___dummy-file___")
             
             file_name = file_path[static_file_base.length..-1]
-            file_name = replace_symbols(file_name, definedSymbols)
+            file_name = replace_symbols(file_name, defined_symbols)
             if (File.directory?(file_path))
               FileUtils.mkdir dir + file_name unless File.exist? dir + file_name
             else
@@ -240,7 +240,7 @@ module Boot::Lib::Core
 
         files.each do |fileHash|
           fileHash.each do |src, dest|
-            dest = replace_symbols(dest, definedSymbols)
+            dest = replace_symbols(dest, defined_symbols)
             FileUtils.cp(path + '/' + src, dir + '/' + dest)
           end
         end
@@ -258,7 +258,7 @@ module Boot::Lib::Core
           end
 
           files_to_copy.each do |file, out_file|
-            out_file = replace_symbols(out_file, definedSymbols)
+            out_file = replace_symbols(out_file, defined_symbols)
             FileUtils.cp(path + '/' + file, dir + '/' + out_file)
           end
         end
@@ -275,7 +275,7 @@ module Boot::Lib::Core
         # If this doesent work, dont stress
         # Probably just not an UTF-8 text file error
         begin
-          file_object_w.write replace_symbols(file_content, definedSymbols)
+          file_object_w.write replace_symbols(file_content, defined_symbols)
         rescue ArgumentError => e
           file_object_w.close
           next
