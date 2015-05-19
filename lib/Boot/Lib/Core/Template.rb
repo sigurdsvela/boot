@@ -187,7 +187,7 @@ module Boot::Lib::Core
         if (!parsedOptions[flag].nil?)
           defined_symbols[object['symbol']] = parsedOptions[flag]
         elsif (object['require']) # Not defined and required
-          throw ArgumentError.new "Must define '#{flag}' for '#{name}' template"
+          fail ArgumentError.new "Must define '#{flag}' for '#{name}' template"
         end
       end
 

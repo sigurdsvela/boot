@@ -45,7 +45,11 @@ module Boot::Lib::Commands
     # Create a project base on the template
     puts "Creating #{outputPath} base on '#{template.name}' template"
     creation_thread = Thread.new {
-      template.create(templateArgs, outputPath)
+      begin
+        template.create(templateArgs, outputPath)
+      rescue ArgumentError => e
+        puts e.message
+      end
     }
     loading_thread = Thread.new {
       print "Doing stuff"
