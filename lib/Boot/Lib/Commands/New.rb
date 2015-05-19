@@ -3,8 +3,8 @@ include Boot::Lib
 
 module Boot::Lib::Commands
   optionsObj = Slop::Options.new suppress_errors: true
-  optionsObj.string '-t', '--template', 'Spesify template to use'
   optionsObj.string '-o', '--out', 'Spesify where to save the template.', default: File.dirname(__FILE__)
+  optionsObj.banner = "Usage: boot new 'template-name' [--out 'out-dir'] [-- 'template-options']"
 
   New = SubCommand.new(
     'new', # Name of the sub command
@@ -12,12 +12,14 @@ module Boot::Lib::Commands
     optionsObj
   ) { |options, args|
     parsedOptions = options.parse(args)
-    
-    templateName = parsedOptions[:template]
-    # If template not defined, and first arg is not a option
-    # it is the template name
-    if (templateName.nil? && !Boot::Lib::Core::SubCommand.is_flag(args[0]))
+
+    # The first argument, as long as not a option
+    # is the template
+    if (!Boot::Lib::Core::SubCommand.is_flag(args[0]))
       templateName = args[0]
+    else
+      puts optionsObj.banner
+      next
     end
 
     outputPath = !parsedOptions[:out].nil? ? Dir.pwd + '/' + parsedOptions[:out] : Dir.pwd
@@ -31,10 +33,6 @@ module Boot::Lib::Commands
     templateArgs = args[c+1..-1]
     if (templateArgs.nil?) # no -- found
       templateArgs = []
-    end
-
-    if templateName.nil?
-      puts "'boot new' requires the --template [string] option"
     end
 
     # Get template by name
