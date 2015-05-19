@@ -36,6 +36,10 @@ module Boot::Lib::Core
       end
     end
 
+    def self.is_flag(str)
+      return str.start_with?("--") || (str.start_with?("-") && str.length == 2)
+    end
+
     def printHelpMessage
       puts 'boot ' + @name
       if (@description != '')
