@@ -6,6 +6,7 @@ require 'JSON'
 module Boot::Lib::Commands
   optionsObj = Slop::Options.new
   optionsObj.on "--list", "List all template names"
+  optionsObj.on "-v", "--verbose", "Print more info"
   
   Template = SubCommand.new(
     'template', # Name of the sub command
@@ -26,11 +27,16 @@ module Boot::Lib::Commands
       end
 
       templates.each do |key, value|
-        puts "name:     " + value.name
-        puts "location: " + value.path
-        puts "description:\n"
-        puts value.description
-        puts
+        if (parsedOptions[:vebose])
+          puts "key:      " + key
+          puts "name:     " + value.name
+          puts "location: " + value.path
+          puts "description:\n"
+          puts value.description
+          puts
+        else
+          puts key
+        end
       end
 
       next
