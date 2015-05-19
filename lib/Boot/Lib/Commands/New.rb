@@ -20,7 +20,6 @@ module Boot::Lib::Commands
       templateName = args[0]
     end
 
-    puts templateName
     outputPath = !parsedOptions[:out].nil? ? Dir.pwd + '/' + parsedOptions[:out] : Dir.pwd
     
     # Strip all args before the -- arg, signaling args to the template
