@@ -1,2 +1,3 @@
 boot-*.gem
 bin/boot-config.json
+!._keep
