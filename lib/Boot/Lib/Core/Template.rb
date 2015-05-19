@@ -275,7 +275,7 @@ module Boot::Lib::Core
         # If this doesent work, dont stress
         # Probably just not an UTF-8 text file error
         begin
-          file_object_w.write replaceSymbols(file_content, definedSymbols)
+          file_object_w.write replace_symbols(file_content, definedSymbols)
         rescue ArgumentError => e
           file_object_w.close
           next
