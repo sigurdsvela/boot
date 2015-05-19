@@ -1,16 +1,16 @@
 include Boot::Lib::Core
 
 module Boot::Lib::Commands
-  optionsObj = Slop::Options.new
+  options_obj = Slop::Options.new
 
   Help = SubCommand.new(
     'help', # Name of the command
     'Print the help message', # Description
-    optionsObj, # Has no options
+    options_obj, # Has no options
     false
   ) do |_options, _args|
-    Boot.getSubCommands.each do |_key, cmd|
-      cmd.printHelpMessage
+    Boot.sub_commands.each do |_key, cmd|
+      cmd.print_help_message
     end
   end
   @Help

@@ -354,7 +354,7 @@ module Boot::Lib::Core
     # file
     # return nil if the template can no
     # be found
-    def self.getTemplateByName(name)
+    def self.get_template_by_name(name)
       config = Boot.config
       includePaths = config.templates_path
       path = '';
