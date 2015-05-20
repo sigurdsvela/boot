@@ -65,13 +65,13 @@ module Boot::Lib::Commands
     loading_thread = Thread.new {
       print "Doing stuff"
       while true do
-        print "."
+        print ".."
         sleep 0.3
       end
     }
     creation_thread.join
     loading_thread.exit
-    print "\n"
+    puts "\nDone!"
   }
   @New
 end
