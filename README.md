@@ -4,7 +4,12 @@ A command line tool for quickly creating starting points for projects based on d
 Boot contains different templates to create different types of projects([List all templates](#list-all-templates))
 
 ## Installation
-Run this in your terminal to install.
+**(Recomended)** Install from ruby gems
+```shell
+$ gem install boot-cli
+```
+
+Alternatively install the latest version with the install script
 ```shell
 $ curl -sSL https://raw.github.com/sigurdsvela/boot/install.rb | ruby
 ```
