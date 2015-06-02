@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__)) + '/lib/boot.rb'
 
 Gem::Specification.new do |s|
-  s.name        = 'boot'
+  s.name        = 'boot-cli'
   s.version     = Boot::VERSION
   s.executables << 'boot'
   s.licenses    = ['GPL']
