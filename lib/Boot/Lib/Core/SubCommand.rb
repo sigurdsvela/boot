@@ -29,14 +29,18 @@ module Boot::Lib::Core
         # Hack to get around the lack of e.getUnknownOption()
         # TODO Fix once avaiable
         if (e.flag == '--help')
-          printHelpMessage
+          print_help_message
         else
           puts "#{e.message}. Try boot #{@name} --help"
         end
       end
     end
 
-    def printHelpMessage
+    def self.is_flag(str)
+      return str.start_with?("--") || (str.start_with?("-") && str.length == 2)
+    end
+
+    def print_help_message
       puts 'boot ' + @name
       if (@description != '')
         puts "\tDescription:"
