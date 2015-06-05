@@ -2,7 +2,7 @@ require_relative 'Boot/Lib/autoload.rb'
 require 'JSON'
 
 module Boot
-  VERSION = "0.3.0"
+  VERSION = "0.3.1"
 
   def self.main
     # Open and parse default config

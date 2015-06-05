@@ -91,7 +91,7 @@ module Boot::Lib::Core
 
       @options = Slop::Options.new
 
-      options.banner = "usage: #{$0} new --template #{name} [--out DIR] [options]"
+      options.banner = "usage: #{$0} new --template #{name} [--out DIR] -- [options]"
 
       # Validate static folders
       @static_files.each do |static_dir_path|
@@ -166,7 +166,7 @@ module Boot::Lib::Core
     end
 
 
-    # Create a new "project" base
+    # Create a new "project" based
     # on this template, to the directory
     # "dir".
     def create(args, dir)
