@@ -166,7 +166,7 @@ module Boot::Lib::Core
     end
 
 
-    # Create a new "project" base
+    # Create a new "project" based
     # on this template, to the directory
     # "dir".
     def create(args, dir)
