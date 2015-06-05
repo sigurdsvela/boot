@@ -91,7 +91,7 @@ module Boot::Lib::Core
 
       @options = Slop::Options.new
 
-      options.banner = "usage: #{$0} new --template #{name} [--out DIR] [options]"
+      options.banner = "usage: #{$0} new --template #{name} [--out DIR] -- [options]"
 
       # Validate static folders
       @static_files.each do |static_dir_path|
