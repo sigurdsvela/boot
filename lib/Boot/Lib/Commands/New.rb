@@ -55,13 +55,9 @@ module Boot::Lib::Commands
 
     # Create a project base on the template
     puts "Creating #{output_path} based on '#{template.name}' template"
-    creation_thread = Thread.new {
-      begin
-        template.create(template_args, output_path)
-      rescue ArgumentError => e
-        puts e.message
-      end
-    }
+
+    loading_thread = nil
+
     loading_thread = Thread.new {
       print "Doing stuff"
       while true do
@@ -69,9 +65,24 @@ module Boot::Lib::Commands
         sleep 0.3
       end
     }
+
+    creation_thread = Thread.new {
+      Thread.current.thread_variable_set("success", true); 
+      begin
+        template.create(template_args, output_path)
+      rescue ArgumentError => e
+        Thread.current.thread_variable_set("success", false);
+        puts "\r" + e.message
+      end
+    }
+
     creation_thread.join
     loading_thread.exit
-    puts "\nDone!"
+
+    # Unless an exception occured
+    if (creation_thread.thread_variable_get("success"))
+      puts "\nDone!"
+    end
   }
   @New
 end
