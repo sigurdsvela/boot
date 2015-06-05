@@ -1,5 +1,5 @@
 # boot
-A command line tool for quickly creating starting points for projects based on different templates
+A command line tool for quickly creating starting points for projects based on different templates, containing boilerplate code
 
 Boot contains different templates to create different types of projects([List all templates](#list-all-templates))
 
