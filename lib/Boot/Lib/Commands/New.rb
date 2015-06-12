@@ -25,7 +25,7 @@ module Boot::Lib::Commands
 
     output_path = !parsed_options[:out].nil? ? Dir.pwd + '/' + parsed_options[:out] : Dir.pwd
 
-    if (Dir.exists?(output_path) && !(Dir.entries(output_path) - %w{ . .. }).empty?)
+    if (Dir.exists?(output_path) && !((Dir[output_path + "/*"]).empty?))
       puts "Error: #{output_path} exists and is not empty"
       next # terminate
     end
