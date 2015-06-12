@@ -17,7 +17,7 @@ $ curl -sSL https://raw.github.com/sigurdsvela/boot/install.rb | ruby
 ## Usage
 
 ### Create new project
-To create a new project base on a template run
+To create a new project based on a template run
 ```shell
 $ boot new template-name --out output-directory
 ```
@@ -35,8 +35,8 @@ $ boot template --list
 ```
 
 ### Template spesific options
-All template may have template spesific options. What these options are used for vary from template to template.
-Maybe choose vcs, set the name of your project, or something else.
+All templates may have template spesific options. What these options are used for vary from template to template.
+Maybe to choose vcs, set the name of your project, or something else.
 
 To list all avaiable options for a template run
 ```shell
@@ -61,7 +61,7 @@ practical
 $ alias "wordpress-plugin"="boot new wordpress-plugin -o . --"
 ```
 
-This aliases the boot command that creates the starting point of a WordPress plugin in the current directory
+This aliases the boot command that creates the starting point of a WordPress plugin in the current directory,
 to the command `wordpress-plugin`
 
 Now you can run
@@ -75,20 +75,20 @@ $ wordpress-plugin --name "My Plugin" --description "Does stuff"
 ## Writing custom templates walkthrough
 
 You can write your own templates, and make use of them with boot.
-To do this, you first need to create a directory were you templates are.
-Lets create a boot-templates directory in out user directory
+To do this, you first need to create a directory were your templates will live.
+Lets create a boot-templates/ directory in our user directory
 
 ```shell
 $ mkdir ~/boot-templates
 ```
 
-Now, you need to setup a .boot dot file, to tell boot to look for templates in this directory.
+Now, you need to setup a ~/.boot dot file, to tell boot to look for templates in this new directory.
 
 ```shell
 $ touch ~/.boot
 ```
 
-The .boot dot file uses json syntax, and you need to set the "templates_path" key to be an array
+The ~/.boot dot file uses json syntax, and you need to set the "templates_path" key to be an array
 of template directories, or just a single string with one directory. I'm gonna use an array here.
 Set the content of the new ~/.boot file to be
 
@@ -101,16 +101,16 @@ Set the content of the new ~/.boot file to be
 
 ### Writing the template
 
-Now you're ready to write templates in the boot-templates path.
-We'll use boot to create a starting point for out new boot-template
+Now you're ready to write templates in the boot-templates/ path.
+We'll use boot to create a starting point for our new boot-template
 
 ```shell
 $ cd ~/boot-templates
 $ boot new boot-template -o php -- --name PHP --description "Starting point for a PHP project"
 ```
 
-Quick overview. All boot templates can have "static" and "option" files. Static files included no matter what
-options passed to the templates are. "option" files are included based on the options passed.
+Quick overview. All boot templates can have "static" and "option" files. Static files are included no matter what
+options are passed to the template. "option" files are included based on the options passed.
 
 Lets set up our static files first
 
@@ -131,8 +131,7 @@ Boot will create `some-dir` and put the index.php file in there.
 
 ### Options
 
-A little bit more advanced, is, optionally include a .gitignore file if the --vcs option passed to the
-template is "git"
+A little bit more advanced, option files. Lets set up an optionally included .gitignore file, which is included if the --vcs option passed to the template is "git"
 
 First, for the sake of structure, we'll create a 'vcs' directory,
 and then put our .gitignore file in there
@@ -143,7 +142,7 @@ $ mkdir vcs
 $ touch vcs/.gitignore
 ```
 
-And lests but "vendor/" in the gitignore
+And lets but "vendor/" in the gitignore
 
 ```shell
 $ cd ~/boot-templates/php
@@ -173,19 +172,18 @@ After you edit it, it should look like this
 }
 ```
 
-The only thing we add is the "--vcs : [...]" part
-The description key is the description of this option, and will
+The only thing we added is the "--vcs : [...]" part
+The "description" key is the description of this option, and will
 be displayed when the user runs `boot template php`.
-The values are the different values this option may be, which point to the files
+The "values" key list the different values this option may be, which point to the files
 that should be included if the option is that value.
-You'll notice that "git" point to an object. This is because, if you just write "vcs/.gitignore" as a string
-boot will assume, that when a user creates a new project base on this template, it should create a vcs directory
-and but the .gitignore in the there. The object tells boot to grap the file form the source(the key) and put
+You'll notice that "git" point to an object, and not just a string to a path. This is because, if you just write "vcs/.gitignore" as a string
+boot will assume, that when a user creates a new project based on this template, it should create the vcs directory spesified and put the .gitignore in there. The object tells boot to grab the file from the source(the key) and put
 it in the dest(the value).
 
-But what it we wan't the option to allow an inferior version contoll system, like svn.
+But what it we want the option to allow an inferior version contoll system, like svn.
 Lets do that.
-We'll just copy the .gitignore
+We'll just copy the .gitignore => .svnignore
 
 ```shell
 $ cd ~/boot-templates
@@ -226,7 +224,7 @@ $ boot new php -o some-project -- --vcs svn
 
 Lets do a flag next. Flags in boot templates are argument that take no value, but when they are present
 they include some files.
-Lets setup a --autoloaded flag, which creates an autoload.php file in the root directory, and makes index.php
+Lets setup an --autoloaded flag, which creates an autoload.php file in the root directory, and makes index.php
 require this file.
 
 First well create an autoload.php file in our template, lets put it in a misc directory
@@ -238,7 +236,7 @@ $ touch misc/autoload.php
 ```
 
 Now, well also create an alternative index.php file, that will be included if the --audoloaded flag is present,
-and will overwrite the one in out static folder.
+and will overwrite the one in our static folder.
 
 ```shell
 $ cd ~/boot-templates/php
@@ -253,7 +251,7 @@ Now, lets edit that index-autoloaded.php file, so it contains the line to requir
 require_once __DIR__ . "/autoload.php"
 ```
 
-Greate, lets setup the option in our template.json. The "syntax" for create flag are slightly different.
+Great, lets setup the option in our template.json. The "syntax" for createing flag are slightly different.
 Lets edit our template.json file
 
 *~/boot-templates/php/template.json*
